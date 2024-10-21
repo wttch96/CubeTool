@@ -25,7 +25,7 @@ struct CubeToolApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CubeView()
         }
         .modelContainer(sharedModelContainer)
     }
