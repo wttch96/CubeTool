@@ -8,59 +8,13 @@
 import Foundation
 import SceneKit
 
-struct StickerDefinition {
-    let color: NSColor
-    let topLeftCorner: Bool
-    let topRightCorner: Bool
-    let bottomLeftCorner: Bool
-    let bottomRightCorner: Bool
-    
-    init(_ color: NSColor, topLeftCorner: Bool = false, topRightCorner: Bool = false, bottomLeftCorner: Bool = false, bottomRightCorner: Bool = false) {
-        self.color = color
-        self.topLeftCorner = topLeftCorner
-        self.topRightCorner = topRightCorner
-        self.bottomLeftCorner = bottomLeftCorner
-        self.bottomRightCorner = bottomRightCorner
-    }
-    
-    func left() -> Self {
-        return .init(color, topLeftCorner: true, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func right() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: true, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: true)
-    }
-    
-    func top() -> Self {
-        return .init(color, topLeftCorner: true, topRightCorner: true, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func bottom() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: true)
-    }
-    
-    func topLeft() -> Self {
-        return .init(color, topLeftCorner: true, topRightCorner: topRightCorner, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func topRight() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: true, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func bottomLeft() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func bottomRight() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: true)
-    }
-}
 
 class PieceNode: SCNNode {
-    let size: CGFloat = 32
     let padding = 2.0
     
     private let stickers: [StickerDefinition?]
+    // 块的旋转状态
+    var state: SCNVector3
     
     // F, B, L, R, U, D
     private let positions: [SCNVector3] = [
@@ -80,9 +34,10 @@ class PieceNode: SCNNode {
         SCNVector3(-Float.pi / 2, 0, 0)
     ]
     
-    init(_ pieceDefinition: PieceDefinition) {
+    init(_ pieceDefinition: PieceDefinition, state: SCNVector3 = SCNVector3(0, 0, 0)) {
         guard pieceDefinition.stickers.count == 6 else { fatalError("Invalid sticker count") }
         self.stickers = pieceDefinition.stickers
+        self.state = state
         super.init()
         
         createPiece()
@@ -104,6 +59,7 @@ class PieceNode: SCNNode {
     }
     
     private func createSticker(at position: Int, with sticker: StickerDefinition) {
+        let size = CGFloat(Constants.size)
         let stickerSize = size - padding
         let cornerSize = stickerSize * 0.3
         let path = NSBezierPath.roundedRect(
@@ -122,7 +78,8 @@ class PieceNode: SCNNode {
     }
     
     private func createCenterBox() {
-        let centerBox = SCNBox(width: CGFloat(size), height: CGFloat(size), length: CGFloat(size), chamferRadius: 0)
+        let size = CGFloat(Constants.size)
+        let centerBox = SCNBox(width: size, height: size, length: size, chamferRadius: 0)
         centerBox.firstMaterial?.diffuse.contents = NSColor.black
         let boxNode = SCNNode(geometry: centerBox)
         addChildNode(boxNode)
