@@ -62,7 +62,7 @@ class CubeNode: SCNNode {
         addChildNode(wrapNode)
         
         wrapNode.runAction(createRotateAction(
-            rotateAction: SCNAction.rotate(by: CGFloat.pi / 2, around: op.around, duration: 1),
+            rotateAction: SCNAction.rotate(by: CGFloat.pi / 2, around: op.around, duration: 0.2),
             pieceIndexAction: SCNAction.run { _ in
                 // 调整块形态
                 for (node, index) in zip(nodes, op.pieceNextIndex) {

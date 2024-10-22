@@ -55,24 +55,43 @@ struct CubeView: NSViewRepresentable {
     }
     
     func updateNSView(_ nsView: SCNView, context: Context) {
-        // 可以在这里更新视图
+        // 可以在这里更新视图mm
     }
     
     func handleKeyDown(with event: NSEvent) {
         let isShiftPressed = event.modifierFlags.contains(.shift)
+        let isOptionPressed = event.modifierFlags.contains(.command)
         switch event.keyCode {
         case 16:
-            cube.operate(.F(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.F(clockwise: !isOptionPressed))
+            } else {
+                cube.operate(.f(reverse: isOptionPressed))
+            }
         case 31:
-            cube.operate(.R(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.R(clockwise: !isOptionPressed))
+            } else {
+                cube.operate(.r(reverse: isOptionPressed))
+            }
         case 35:
-            cube.operate(.L(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.L(clockwise: !isOptionPressed))
+            } else {
+                cube.operate(.l(reverse: isOptionPressed))
+            }
         case 45:
             cube.operate(.B(clockwise: !isShiftPressed))
         case 3:
             cube.operate(.U(clockwise: !isShiftPressed))
         case 4:
             cube.operate(.D(clockwise: !isShiftPressed))
+        case 46:
+            cube.operate(.M(clockwise: !isShiftPressed))
+        case 2:
+            cube.operate(.E(clockwise: !isShiftPressed))
+        case 41:
+            cube.operate(.S(clockwise: !isShiftPressed))
         default:
             print(event.keyCode)
         }
