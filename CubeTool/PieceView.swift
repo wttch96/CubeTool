@@ -41,6 +41,16 @@ struct CubeView: NSViewRepresentable {
         
         scene.rootNode.addChildNode(cube)
         
+        // 创建摄像机节点
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        // 设置摄像机的位置
+        cameraNode.position = SCNVector3(x: 120, y: 120, z: 120)
+//        // 设置摄像机的旋转
+        cameraNode.eulerAngles = SCNVector3(-CGFloat.pi / 5, CGFloat.pi / 4, 0)
+        cameraNode.camera?.zFar = 300
+        scene.rootNode.addChildNode(cameraNode)
+        
         scnView.scene = scene
         // 启用用户交互
         scnView.allowsCameraControl = true
