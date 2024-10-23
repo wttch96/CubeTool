@@ -74,7 +74,7 @@ struct CubeView: NSViewRepresentable {
         switch event.keyCode {
         case 16:
             if isShiftPressed {
-                cube.operate(.F(clockwise: !isOptionPressed))
+                cube.operate(.F(reverse: isOptionPressed))
             } else {
                 cube.operate(.f(reverse: isOptionPressed))
             }
@@ -91,19 +91,35 @@ struct CubeView: NSViewRepresentable {
                 cube.operate(.l(reverse: isOptionPressed))
             }
         case 45:
-            cube.operate(.B(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.B(reverse: isOptionPressed))
+            } else {
+                cube.operate(.b(reverse: isOptionPressed))
+            }
         case 3:
-            cube.operate(.U(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.U(reverse: isOptionPressed))
+            } else {
+                cube.operate(.u(reverse: isOptionPressed))
+            }
         case 4:
-            cube.operate(.D(clockwise: !isShiftPressed))
+            if isShiftPressed {
+                cube.operate(.D(reverse: isOptionPressed))
+            } else {
+                cube.operate(.d(reverse: isOptionPressed))
+            }
         case 46:
             cube.operate(.M(reverse: isShiftPressed))
         case 2:
-            cube.operate(.E(clockwise: !isShiftPressed))
+            cube.operate(.E(reverse: isShiftPressed))
         case 41:
-            cube.operate(.S(clockwise: !isShiftPressed))
+            cube.operate(.S(reverse: isShiftPressed))
         case 11:
             cube.operate(.x(reverse: isShiftPressed))
+        case 17:
+            cube.operate(.y(reverse: isShiftPressed))
+        case 44:
+            cube.operate(.z(reverse: isShiftPressed))
         default:
             print(event.keyCode)
         }

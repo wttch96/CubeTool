@@ -50,30 +50,33 @@ struct CubeOperator {
         (0, 1, 2), (0, 1, 1), (0, 1, 0),
         (0, 0, 2), (0, 0, 1), (0, 0, 0)
     ]
-
+    private static let x1: [(x: Int, y: Int, z: Int)] = x0.map { (x: $0.x + 1, y: $0.y, z: $0.z) }
+    private static let x2: [(x: Int, y: Int, z: Int)] = x0.map { (x: $0.x + 2, y: $0.y, z: $0.z) }
     private static let x0_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: x0)
-
-    private static let x1: [(x: Int, y: Int, z: Int)] = [
-        (1, 2, 2), (1, 2, 1), (1, 2, 0),
-        (1, 1, 2), (1, 1, 1), (1, 1, 0),
-        (1, 0, 2), (1, 0, 1), (1, 0, 0)
-    ]
-
     private static let x1_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: x1)
-
-    private static let x2: [(x: Int, y: Int, z: Int)] = [
-        (2, 2, 2), (2, 2, 1), (2, 2, 0),
-        (2, 1, 2), (2, 1, 1), (2, 1, 0),
-        (2, 0, 2), (2, 0, 1), (2, 0, 0)
-    ]
-
     private static let x2_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: x2)
 
-    private static let FPieceIndex: [(x: Int, y: Int, z: Int)] = [
-        (0, 2, 2), (1, 2, 2), (2, 2, 2),
-        (0, 1, 2), (1, 1, 2), (2, 1, 2),
+    private static let y0: [(x: Int, y: Int, z: Int)] = [
+        (0, 0, 0), (1, 0, 0), (2, 0, 0),
+        (0, 0, 1), (1, 0, 1), (2, 0, 1),
         (0, 0, 2), (1, 0, 2), (2, 0, 2)
     ]
+    private static let y1: [(x: Int, y: Int, z: Int)] = y0.map { (x: $0.x, y: $0.y + 1, z: $0.z) }
+    private static let y2: [(x: Int, y: Int, z: Int)] = y0.map { (x: $0.x, y: $0.y + 2, z: $0.z) }
+    private static let y0_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: y0)
+    private static let y1_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: y1)
+    private static let y2_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: y2)
+
+    private static let z0: [(x: Int, y: Int, z: Int)] = [
+        (0, 2, 0), (1, 2, 0), (2, 2, 0),
+        (0, 1, 0), (1, 1, 0), (2, 1, 0),
+        (0, 0, 0), (1, 0, 0), (2, 0, 0)
+    ]
+    private static let z1: [(x: Int, y: Int, z: Int)] = z0.map { (x: $0.x, y: $0.y, z: $0.z + 1) }
+    private static let z2: [(x: Int, y: Int, z: Int)] = z0.map { (x: $0.x, y: $0.y, z: $0.z + 2) }
+    private static let z0_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: z0)
+    private static let z1_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: z1)
+    private static let z2_: [(x: Int, y: Int, z: Int)] = reverseLayer(layer: z2)
 
     private static func nextIndex(_ reverse: Bool) -> [Int] {
         // 这里: 比如 reverse 0
@@ -112,58 +115,58 @@ struct CubeOperator {
         return result
     }
 
-    // F 操作
-    static func F(clockwise: Bool = true) -> Self {
+    // MARK: F, B, S, z
+
+    static func F(reverse: Bool = false) -> Self {
         .init(
-            pieceIndex: FPieceIndex,
-            clockwise: clockwise,
-            around: SCNVector3(0, 0, clockwise ? -1 : 1)
+            pieceIndex: z2,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
-    // f 操作
     static func f(reverse: Bool = false) -> Self {
         .init(
-            pieceIndex: [
-                (0, 2, 1), (1, 2, 1), (2, 2, 1),
-                (0, 1, 1), (1, 1, 1), (2, 1, 1),
-                (0, 0, 1), (1, 0, 1), (2, 0, 1),
-                (0, 2, 2), (1, 2, 2), (2, 2, 2),
-                (0, 1, 2), (1, 1, 2), (2, 1, 2),
-                (0, 0, 2), (1, 0, 2), (2, 0, 2)
-            ],
+            pieceIndex: z1 + z2,
             pieceNextIndex: layer2NextIndex(reverse),
             around: SCNVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
-    private static let RPieceIndex: [(x: Int, y: Int, z: Int)] = [
-        (2, 2, 2), (2, 2, 1), (2, 2, 0),
-        (2, 1, 2), (2, 1, 1), (2, 1, 0),
-        (2, 0, 2), (2, 0, 1), (2, 0, 0)
-    ]
-
-    // R 操作
-    static func R(reverse: Bool = false) -> Self {
-        // 选择需要从 x 轴正向看过去
+    static func B(reverse: Bool = false) -> Self {
         .init(
-            pieceIndex: x2,
+            pieceIndex: z0_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(reverse ? 1 : -1, 0, 0)
+            around: SCNVector3(0, 0, reverse ? -1 : 1)
         )
     }
 
-    // r 操作
-    static func r(reverse: Bool = false) -> Self {
-        // 选择需要从 x 轴正向看过去
+    static func b(reverse: Bool = false) -> Self {
         .init(
-            pieceIndex: x1 + x2,
+            pieceIndex: z0_ + z1_,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(reverse ? 1 : -1, 0, 0)
+            around: SCNVector3(0, 0, reverse ? -1 : 1)
         )
     }
 
-    // L 操作
+    static func S(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: z1,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(0, 0, reverse ? 1 : -1)
+        )
+    }
+
+    static func z(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: z0 + z1 + z2,
+            pieceNextIndex: layer3NextIndex(reverse),
+            around: SCNVector3(0, 0, reverse ? 1 : -1)
+        )
+    }
+
+    // MARK: L, R, M, x
+
     static func L(reverse: Bool = false) -> Self {
         return .init(
             pieceIndex: x0_,
@@ -172,7 +175,6 @@ struct CubeOperator {
         )
     }
 
-    // l 操作
     static func l(reverse: Bool = false) -> Self {
         return .init(
             // 选择需要从 x 轴反向看过去
@@ -183,46 +185,24 @@ struct CubeOperator {
         )
     }
 
-    // B 操作
-    static func B(clockwise: Bool = true) -> Self {
+    static func R(reverse: Bool = false) -> Self {
+        // 选择需要从 x 轴正向看过去
         .init(
-            pieceIndex: [
-                (2, 2, 0), (1, 2, 0), (0, 2, 0),
-                (2, 1, 0), (1, 1, 0), (0, 1, 0),
-                (2, 0, 0), (1, 0, 0), (0, 0, 0)
-            ],
-            clockwise: clockwise,
-            around: SCNVector3(0, 0, clockwise ? 1 : -1)
+            pieceIndex: x2,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(reverse ? 1 : -1, 0, 0)
         )
     }
 
-    // U 操作
-    static func U(clockwise: Bool = true) -> Self {
+    static func r(reverse: Bool = false) -> Self {
+        // 选择需要从 x 轴正向看过去
         .init(
-            pieceIndex: [
-                (0, 2, 0), (1, 2, 0), (2, 2, 0),
-                (0, 2, 1), (1, 2, 1), (2, 2, 1),
-                (0, 2, 2), (1, 2, 2), (2, 2, 2)
-            ],
-            clockwise: clockwise,
-            around: SCNVector3(0, clockwise ? -1 : 1, 0)
+            pieceIndex: x1 + x2,
+            pieceNextIndex: layer2NextIndex(reverse),
+            around: SCNVector3(reverse ? 1 : -1, 0, 0)
         )
     }
 
-    // D 操作
-    static func D(clockwise: Bool = true) -> Self {
-        .init(
-            pieceIndex: [
-                (0, 0, 2), (1, 0, 2), (2, 0, 2),
-                (0, 0, 1), (1, 0, 1), (2, 0, 1),
-                (0, 0, 0), (1, 0, 0), (2, 0, 0)
-            ],
-            clockwise: clockwise,
-            around: SCNVector3(0, clockwise ? 1 : -1, 0)
-        )
-    }
-
-    // M 操作
     static func M(reverse: Bool = false) -> Self {
         .init(
             pieceIndex: x1_,
@@ -231,38 +211,61 @@ struct CubeOperator {
         )
     }
 
-    // E 操作
-    static func E(clockwise: Bool = true) -> Self {
-        .init(
-            pieceIndex: [
-                (0, 1, 0), (1, 1, 0), (2, 1, 0),
-                (0, 1, 1), (1, 1, 1), (2, 1, 1),
-                (0, 1, 2), (1, 1, 2), (2, 1, 2)
-            ],
-            clockwise: clockwise,
-            around: SCNVector3(0, clockwise ? 1 : -1, 0)
-        )
-    }
-
-    // S 操作
-    static func S(clockwise: Bool = true) -> Self {
-        .init(
-            pieceIndex: [
-                (0, 2, 1), (1, 2, 1), (2, 2, 1),
-                (0, 1, 1), (1, 1, 1), (2, 1, 1),
-                (0, 0, 1), (1, 0, 1), (2, 0, 1)
-            ],
-            clockwise: clockwise,
-            around: SCNVector3(0, 0, clockwise ? -1 : 1)
-        )
-    }
-
-    /// x 操作
     static func x(reverse: Bool = false) -> Self {
         .init(
             pieceIndex: x0 + x1 + x2,
             pieceNextIndex: layer3NextIndex(reverse),
             around: SCNVector3(reverse ? 1 : -1, 0, 0)
+        )
+    }
+
+    // MARK: U, D, E, y
+
+    static func U(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y2,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(0, reverse ? 1 : -1, 0)
+        )
+    }
+
+    static func u(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y1 + y2,
+            pieceNextIndex: layer2NextIndex(reverse),
+            around: SCNVector3(0, reverse ? 1 : -1, 0)
+        )
+    }
+
+    static func D(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y0_,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(0, reverse ? -1 : 1, 0)
+        )
+    }
+
+    static func d(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y0_ + y1_,
+            pieceNextIndex: layer2NextIndex(reverse),
+            around: SCNVector3(0, reverse ? -1 : 1, 0)
+        )
+    }
+    
+    static func E(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y1_,
+            pieceNextIndex: nextIndex(reverse),
+            around: SCNVector3(0, reverse ? -1 : 1, 0)
+        )
+    }
+    
+    static func y(reverse: Bool = false) -> Self {
+        .init(
+            pieceIndex: y0 + y1 + y2,
+            pieceNextIndex: layer3NextIndex(reverse),
+            around: SCNVector3(0, reverse ? 1 : -1, 0)
         )
     }
 }
