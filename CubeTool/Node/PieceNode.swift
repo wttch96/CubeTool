@@ -13,6 +13,8 @@ class PieceNode: SCNNode {
     let padding = 2.0
     
     private let stickers: [StickerDefinition?]
+    
+    var index: SCNVector3
     // 块的旋转状态
     var state: SCNVector3
     
@@ -34,9 +36,10 @@ class PieceNode: SCNNode {
         SCNVector3(-Float.pi / 2, 0, 0)
     ]
     
-    init(_ pieceDefinition: PieceDefinition, state: SCNVector3 = SCNVector3(0, 0, 0)) {
+    init(_ pieceDefinition: PieceDefinition, index: SCNVector3,  state: SCNVector3 = SCNVector3(0, 0, 0)) {
         guard pieceDefinition.stickers.count == 6 else { fatalError("Invalid sticker count") }
         self.stickers = pieceDefinition.stickers
+        self.index = index
         self.state = state
         super.init()
         

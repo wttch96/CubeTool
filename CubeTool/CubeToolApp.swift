@@ -10,23 +10,16 @@ import SwiftData
 
 @main
 struct CubeToolApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
     var body: some Scene {
         WindowGroup {
             CubeView()
+                .onAppear {
+                    
+                    // 现在支持解析带括号的公式
+                    let formula = "M'(R'U'RU')(R'U2RU')2M"
+                    let parsedMoves = CubeParser.parseMoves(from: formula)
+                    CubeParser.executeMoves(parsedMoves)
+                }
         }
-        .modelContainer(sharedModelContainer)
     }
 }

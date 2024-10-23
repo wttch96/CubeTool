@@ -4,6 +4,7 @@
 //
 //  Created by Wttch on 2024/10/22.
 //
+import AppKit
 
 struct PieceDefinition {
     let stickers: [StickerDefinition?]
@@ -12,36 +13,112 @@ struct PieceDefinition {
         self.stickers = stickers
     }
 
-    static let all: [Self] = [
-        // L
-        .init([nil, .init(.orange), .init(.green), nil, nil, .init(.yellow)]),
-        .init([nil, nil, .init(.green).top(), nil, nil, .init(.yellow).right()]),
-        .init([.init(.red), nil, .init(.green), nil, nil, .init(.yellow)]),
-        .init([nil, .init(.orange).left(), .init(.green).right(), nil, nil, nil]),
-        .init([nil, nil, .init(.green).top().bottom(), nil, nil, nil]),
-        .init([.init(.red).right(), nil, .init(.green).left(), nil, nil, nil]),
-        .init([nil, .init(.orange), .init(.green), nil, .init(.white), nil]),
-        .init([nil, nil, .init(.green).bottom(), nil, .init(.white).right(), nil]),
-        .init([.init(.red), nil, .init(.green), nil, .init(.white), nil]),
-        // M
-        .init([nil, .init(.orange).bottom(), nil, nil, nil, .init(.yellow).bottom()]),
-        .init([nil, nil, nil, nil, nil, .init(.yellow).top().bottom()]),
-        .init([.init(.red).top(), nil, nil, nil, nil, .init(.yellow).top()]),
-        .init([nil, .init(.orange).top().bottom(), nil, nil, nil, nil]),
-        .init([nil, nil, nil, nil, nil, nil]),
-        .init([.init(.red).top().bottom(), nil, nil, nil, nil, nil]),
-        .init([nil, .init(.orange).top(), nil, nil, .init(.white).top(), nil]),
-        .init([nil, nil, nil, nil, .init(.white).top().bottom(), nil]),
-        .init([.init(.red).bottom(), nil, nil, nil, .init(.white).bottom(), nil]),
-        // R
-        .init([nil, .init(.orange), nil, .init(.blue), nil, .init(.yellow)]),
-        .init([nil, nil, nil, .init(.blue).top(), nil, .init(.yellow).left()]),
-        .init([.init(.red), nil, nil, .init(.blue), nil, .init(.yellow)]),
-        .init([nil, .init(.orange).right(), nil, .init(.blue).left(), nil, nil]),
-        .init([nil, nil, nil, .init(.blue).top().bottom(), nil, nil]),
-        .init([.init(.red).left(), nil, nil, .init(.blue).right(), nil, nil]),
-        .init([nil, .init(.orange), nil, .init(.blue), .init(.white), nil]),
-        .init([nil, nil, nil, .init(.blue).bottom(), .init(.white).left(), nil]),
-        .init([.init(.red), nil, nil, .init(.blue), .init(.white), nil]),
+    static let f: NSColor = .blue
+    static let b: NSColor = .green
+    static let l: NSColor = .orange
+    static let r: NSColor = .red
+    static let u: NSColor = .yellow
+    static let d: NSColor = .white
+
+    static let fs: StickerDefinition = .init(f)
+    static let bs: StickerDefinition = .init(b)
+    static let ls: StickerDefinition = .init(l)
+    static let rs: StickerDefinition = .init(r)
+    static let us: StickerDefinition = .init(u)
+    static let ds: StickerDefinition = .init(d)
+    static let gs: StickerDefinition = .init(.gray)
+
+    private static let x0y12: [[StickerDefinition?]] = [
+        [nil, bs, ls, nil, nil, ds],
+        [nil, nil, ls.top(), nil, nil, ds.right()],
+        [fs, nil, ls, nil, nil, ds],
+        [nil, bs.left(), ls.right(), nil, nil, nil],
+        [nil, nil, ls.center(), nil, nil, nil],
+        [fs.right(), nil, ls.left(), nil, nil, nil],
     ]
+
+    private static let x0y2: [[StickerDefinition?]] = [
+        [nil, bs, ls, nil, us, nil],
+        [nil, nil, ls.bottom(), nil, us.right(), nil],
+        [fs, nil, ls, nil, us, nil],
+    ]
+
+    private static let x1y12: [[StickerDefinition?]] = [
+        [nil, bs.bottom(), nil, nil, nil, ds.bottom()],
+        [nil, nil, nil, nil, nil, ds.center()],
+        [fs.top(), nil, nil, nil, nil, ds.top()],
+        [nil, bs.center(), nil, nil, nil, nil],
+        [nil, nil, nil, nil, nil, nil],
+        [fs.center(), nil, nil, nil, nil, nil],
+    ]
+
+    private static let x1y2: [[StickerDefinition?]] = [
+        [nil, bs.top(), nil, nil, us.top(), nil],
+        [nil, nil, nil, nil, us.center(), nil],
+        [fs.bottom(), nil, nil, nil, us.bottom(), nil],
+    ]
+
+    private static let x2y12: [[StickerDefinition?]] = [
+        [nil, bs, nil, rs, nil, ds],
+        [nil, nil, nil, rs.top(), nil, ds.left()],
+        [fs, nil, nil, rs, nil, ds],
+        [nil, bs.right(), nil, rs.left(), nil, nil],
+        [nil, nil, nil, rs.center(), nil, nil],
+        [fs.left(), nil, nil, rs.right(), nil, nil],
+    ]
+
+    private static let x2y2: [[StickerDefinition?]] = [
+        [nil, bs, nil, rs, us, nil],
+        [nil, nil, nil, rs.bottom(), us.left(), nil],
+        [fs, nil, nil, rs, us, nil],
+    ]
+
+    private static let x0y2TopWhite: [[StickerDefinition?]] = [
+        [nil, gs, gs, nil, us, nil],
+        [nil, nil, gs.bottom(), nil, us.right(), nil],
+        [gs, nil, gs, nil, us, nil],
+    ]
+    private static let x1y2TopWhite: [[StickerDefinition?]] = [
+        [nil, gs.top(), nil, nil, us.top(), nil],
+        [nil, nil, nil, nil, us.center(), nil],
+        [gs.bottom(), nil, nil, nil, us.bottom(), nil],
+    ]
+
+    private static let x2y2TopWhite: [[StickerDefinition?]] = [
+        [nil, gs, nil, gs, us, nil],
+        [nil, nil, nil, gs.bottom(), us.left(), nil],
+        [gs, nil, nil, gs, us, nil],
+    ]
+
+    private static let x0y2Gray = [
+        [nil, gs, gs, nil, gs, nil],
+        [nil, nil, gs.bottom(), nil, gs.right(), nil],
+        [gs, nil, gs, nil, gs, nil],
+    ]
+    
+    private static let x1y2Gray = [
+        [nil, gs.top(), nil, nil, gs.top(), nil],
+        [nil, nil, nil, nil, gs.center(), nil],
+        [gs.bottom(), nil, nil, nil, gs.bottom(), nil],
+    ]
+    
+    private static let x2y2Gray = [
+        [nil, gs, nil, gs, gs, nil],
+        [nil, nil, nil, gs.bottom(), gs.left(), nil],
+        [gs, nil, nil, gs, gs, nil],
+    ]
+    
+    static let all: [Self] = (
+        x0y12 + x0y2 + x1y12 + x1y2 + x2y12 + x2y2
+    ).map(Self.init)
+    
+    
+    static let topWhite: [Self] = (
+        x0y12 + x0y2TopWhite + x1y12 + x1y2TopWhite + x2y12 + x2y2TopWhite
+    ).map(Self.init)
+    
+    static let y2Gray: [Self] = (
+        x0y12 + x0y2Gray + x1y12 + x1y2Gray + x2y12 + x2y2Gray
+    ).map(Self.init)
+
 }

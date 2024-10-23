@@ -20,7 +20,7 @@ class CubeNode: SCNNode {
         [[0, 1, 2], [3, 4, 5], [6, 7, 8]],
         [[9, 10, 11], [12, 13, 14], [15, 16, 17]],
         [[18, 19, 20], [21, 22, 23], [24, 25, 26]]
-    ], pieces: [PieceDefinition] = PieceDefinition.all) {
+    ], pieces: [PieceDefinition] = PieceDefinition.topWhite) {
         self.pieces = pieces
         self.positios = positios
 
@@ -35,7 +35,7 @@ class CubeNode: SCNNode {
                 var yPieces: [PieceNode] = []
                 for z in 0..<3 {
                     let index = positios[x][y][z]
-                    let shapeNode = PieceNode(PieceDefinition.all[index])
+                    let shapeNode = PieceNode(pieces[index], index: SCNVector3(x, y, z))
                     shapeNode.position = SCNVector3((x-1) * Constants.size, (y-1) * Constants.size, (z-1) * Constants.size)
                     addChildNode(shapeNode)
                     yPieces.append(shapeNode)
@@ -111,6 +111,15 @@ extension CubeNode {
     private func rotateEnd() -> SCNAction {
         return SCNAction.run { _ in
             self.isRotating = false
+            for x in 0..<3 {
+                for y in 0..<3 {
+                    for z in 0..<3 {
+                        let piece = self.pieceNodes[x][y][z]
+                        let a = piece.eulerAngles
+                        print(piece.index, "\(round(a.x / (.pi / 2))), \(round(a.y / (.pi / 2))), \(round(a.z / (.pi / 2)))")
+                    }
+                }
+            }
         }
     }
 }

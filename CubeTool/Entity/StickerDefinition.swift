@@ -6,6 +6,7 @@
 //
 import AppKit
 
+/// 贴图定义
 struct StickerDefinition {
     let color: NSColor
     let topLeftCorner: Bool
@@ -20,6 +21,11 @@ struct StickerDefinition {
         self.bottomLeftCorner = bottomLeftCorner
         self.bottomRightCorner = bottomRightCorner
     }
+    
+    func center() -> Self {
+        return .init(color, topLeftCorner: true, topRightCorner: true, bottomLeftCorner: true, bottomRightCorner: true)
+    }
+
     
     func left() -> Self {
         return .init(color, topLeftCorner: true, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: bottomRightCorner)
@@ -37,19 +43,4 @@ struct StickerDefinition {
         return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: true)
     }
     
-    func topLeft() -> Self {
-        return .init(color, topLeftCorner: true, topRightCorner: topRightCorner, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func topRight() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: true, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func bottomLeft() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: true, bottomRightCorner: bottomRightCorner)
-    }
-    
-    func bottomRight() -> Self {
-        return .init(color, topLeftCorner: topLeftCorner, topRightCorner: topRightCorner, bottomLeftCorner: bottomLeftCorner, bottomRightCorner: true)
-    }
 }
