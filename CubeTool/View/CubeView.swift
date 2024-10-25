@@ -10,10 +10,50 @@ import SceneKit
 import SwiftUI
 
 struct CubeView: NSViewRepresentable {
-    let cube = CubeNode()
+    static var cube: CubeNode? = nil
+    
+    func exec(_ moveString: String) {
+        let moves = CubeParser.parseMoves(from: moveString)
+        CubeView.cube?.executeMoves(moves)
+    }
+    
+    private func angle(_ angle: CGFloat) -> Int {
+        var angle = Int(angle / .pi * 2)
+        if angle < -1 {
+            angle += 4
+        }
+        if angle >= 3 {
+            angle -= 4
+        }
+        return angle
+    }
+    
+    func printCube() {
+        var pieces: [[[Piece]]] = []
+        for x in 0..<3 {
+            var xPieces: [[Piece]] = []
+            for y in 0..<3 {
+                var yPieces: [Piece] = []
+                for z in 0..<3 {
+                    let node = CubeView.cube!.pieceNodes[x][y][z]
+                    let piece = Piece(index: node.index, rotate: IntVector3(x: angle(node.eulerAngles.x), y: angle(node.eulerAngles.y), z: angle(node.eulerAngles.z)))
+                    yPieces.append(piece)
+                }
+                xPieces.append(yPieces)
+            }
+            pieces.append(xPieces)
+        }
+        let cube = Cube(stickerType: .y2Gray, pieces: pieces)
+        let data = try! JSONEncoder().encode(cube)
+        try! data.write(to: URL(fileURLWithPath: "/Users/wttch/Desktop/cube.json"))
+    }
     
     func makeNSView(context: Context) -> SCNView {
         let scnView = SCNView()
+        
+        let cubeData = try! JSONDecoder().decode(Cube.self, from: Data(contentsOf: Bundle.main.url(forResource: "cube", withExtension: "json")!))
+        print(cubeData)
+        
         
         // 创建场景
         let scene = SCNScene()
@@ -38,7 +78,7 @@ struct CubeView: NSViewRepresentable {
         scene.rootNode.addChildNode(xAxis)
         scene.rootNode.addChildNode(yAxis)
         scene.rootNode.addChildNode(zAxis)
-        
+        let cube = CubeNode(cubeData)
         scene.rootNode.addChildNode(cube)
         
         // 创建摄像机节点
@@ -56,10 +96,15 @@ struct CubeView: NSViewRepresentable {
         scnView.allowsCameraControl = true
         
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            self.handleKeyDown(with: event)
+            self.handleKeyDown(with: event, cube: cube)
             return event
         }
         
+        DispatchQueue.main.async(execute: {
+            CubeView.cube = cube
+            print("Set Cube")
+        })
+
         // 返回 SCNView
         return scnView
     }
@@ -68,7 +113,8 @@ struct CubeView: NSViewRepresentable {
         // 可以在这里更新视图mm
     }
     
-    func handleKeyDown(with event: NSEvent) {
+    func handleKeyDown(with event: NSEvent, cube: CubeNode) {
+        guard let cube = CubeView.cube else { return }
         let isShiftPressed = event.modifierFlags.contains(.shift)
         let isOptionPressed = event.modifierFlags.contains(.command)
         switch event.keyCode {

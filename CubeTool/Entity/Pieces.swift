@@ -6,7 +6,7 @@
 //
 import AppKit
 
-struct PieceDefinition {
+struct Pieces {
     let stickers: [StickerDefinition?]
 
     private init(_ stickers: [StickerDefinition?]) {
@@ -95,30 +95,28 @@ struct PieceDefinition {
         [nil, nil, gs.bottom(), nil, gs.right(), nil],
         [gs, nil, gs, nil, gs, nil],
     ]
-    
+
     private static let x1y2Gray = [
         [nil, gs.top(), nil, nil, gs.top(), nil],
         [nil, nil, nil, nil, gs.center(), nil],
         [gs.bottom(), nil, nil, nil, gs.bottom(), nil],
     ]
-    
+
     private static let x2y2Gray = [
         [nil, gs, nil, gs, gs, nil],
         [nil, nil, nil, gs.bottom(), gs.left(), nil],
         [gs, nil, nil, gs, gs, nil],
     ]
-    
+
     static let all: [Self] = (
         x0y12 + x0y2 + x1y12 + x1y2 + x2y12 + x2y2
     ).map(Self.init)
-    
-    
+
     static let topWhite: [Self] = (
         x0y12 + x0y2TopWhite + x1y12 + x1y2TopWhite + x2y12 + x2y2TopWhite
     ).map(Self.init)
-    
+
     static let y2Gray: [Self] = (
         x0y12 + x0y2Gray + x1y12 + x1y2Gray + x2y12 + x2y2Gray
     ).map(Self.init)
-
 }

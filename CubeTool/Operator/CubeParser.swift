@@ -41,7 +41,7 @@ enum CubeParser {
             // 同样处理反向操作和重复操作
             if i < formula.index(before: formula.endIndex) {
                 let nextChar = String(formula[formula.index(after: i)])
-                if nextChar == "'" {
+                if nextChar == "'" || nextChar == "’" {
                     if let baseMove = CubeMove(rawValue: char + "'") {
                         move = baseMove
                     }
@@ -86,9 +86,4 @@ enum CubeParser {
         return formula.endIndex // 如果没有找到匹配的括号，返回字符串末尾
     }
     
-    static func executeMoves(_ moves: [CubeMove]) {
-        for move in moves {
-            move.apply()
-        }
-    }
 }
