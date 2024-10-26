@@ -9,18 +9,19 @@ import Foundation
 import SceneKit
 
 class CubeNode: SCNNode {
-    let cube: Cube
-    
     var pieceNodes: [[[PieceNode]]] = []
     
     private var isRotating: Bool = false
 
-    init(_ cube: Cube) {
-        self.cube = cube
+    override init() {
         super.init()
-
-        // 初始化块
-
+        self.name = "Cube"
+    }
+    
+    func performCube(_ cube: Cube) {
+        pieceNodes = []
+        childNodes.forEach { $0.removeFromParentNode() }
+        
         // 创建节点
         for x in 0..<3 {
             var xPieces: [[PieceNode]] = []
@@ -31,8 +32,8 @@ class CubeNode: SCNNode {
                     let index = piece.index.x * 9 + piece.index.y * 3 + piece.index.z
                     let shapeNode = PieceNode(cube.stickerType.pieces[index], index: IntVector3(x, y, z))
                     shapeNode.position = SCNVector3((x-1) * Constants.size, (y-1) * Constants.size, (z-1) * Constants.size)
-                    shapeNode.eulerAngles = SCNVector3(CGFloat(piece.rotate.x) * CGFloat.pi / 2, CGFloat(piece.rotate.y) * CGFloat.pi / 2, CGFloat(piece.rotate.z) * CGFloat.pi / 2)
                     addChildNode(shapeNode)
+                    shapeNode.orientation = piece.rotate.toSCNQuaternion()
                     yPieces.append(shapeNode)
                 }
                 xPieces.append(yPieces)
@@ -99,7 +100,7 @@ class CubeNode: SCNNode {
         
         addChildNode(wrapNode)
         let action = SCNAction.sequence([
-            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around, duration: 0.2),
+            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around.toSCNVector3(), duration: 0.2),
             SCNAction.run { node in
                 for child in node.childNodes {
                     // 获取子节点在世界坐标系中的旋转
@@ -117,8 +118,10 @@ class CubeNode: SCNNode {
             SCNAction.run { _ in
                 // 调整块形态
                 for (node, index) in zip(nodes, op.pieceNextIndex) {
+                    // 下一个位置
                     let (x, y, z) = op.pieceIndex[index]
                     self.pieceNodes[x][y][z] = node
+                    // 修改数据状态
                 }
             },
             SCNAction.run { _ in
@@ -148,7 +151,7 @@ class CubeNode: SCNNode {
         
         addChildNode(wrapNode)
         let action = SCNAction.sequence([
-            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around, duration: 0.2),
+            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around.toSCNVector3(), duration: 0.2),
             SCNAction.run { node in
                 for child in node.childNodes {
                     // 获取子节点在世界坐标系中的旋转
@@ -172,18 +175,9 @@ class CubeNode: SCNNode {
             },
             SCNAction.run { _ in
                 self.isRotating = false
-//                for x in 0..<3 {
-//                    for y in 0..<3 {
-//                        for z in 0..<3 {
-//                            let piece = self.pieceNodes[x][y][z]
-//                            let a = piece.eulerAngles
-//                            print(piece.index, "\(round(a.x / (.pi / 2))), \(round(a.y / (.pi / 2))), \(round(a.z / (.pi / 2)))")
-//                        }
-//                    }
-//                }
             }
         ])
-        wrapNode.runAction(action) {}
+        wrapNode.runAction(action)
     }
 
     @available(*, unavailable)

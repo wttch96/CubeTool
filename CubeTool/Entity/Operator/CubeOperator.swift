@@ -11,15 +11,15 @@ import SceneKit
 struct CubeOperator {
     var pieceIndex: [(x: Int, y: Int, z: Int)]
     var pieceNextIndex: [Int]
-    var around: SCNVector3
+    var around: IntVector3
 
-    init(pieceIndex: [(x: Int, y: Int, z: Int)], pieceNextIndex: [Int], around: SCNVector3) {
+    init(pieceIndex: [(x: Int, y: Int, z: Int)], pieceNextIndex: [Int], around: IntVector3) {
         self.pieceIndex = pieceIndex
         self.pieceNextIndex = pieceNextIndex
         self.around = around
     }
 
-    init(pieceIndex: [(x: Int, y: Int, z: Int)], clockwise: Bool, around: SCNVector3) {
+    init(pieceIndex: [(x: Int, y: Int, z: Int)], clockwise: Bool, around: IntVector3) {
         self.pieceIndex = pieceIndex
         self.pieceNextIndex = if clockwise {
             [
@@ -121,7 +121,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z2,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? 1 : -1)
+            around: IntVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
@@ -129,7 +129,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z1 + z2,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? 1 : -1)
+            around: IntVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
@@ -137,7 +137,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z0_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? -1 : 1)
+            around: IntVector3(0, 0, reverse ? -1 : 1)
         )
     }
 
@@ -145,7 +145,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z0_ + z1_,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? -1 : 1)
+            around: IntVector3(0, 0, reverse ? -1 : 1)
         )
     }
 
@@ -153,7 +153,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z1,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? 1 : -1)
+            around: IntVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
@@ -161,7 +161,7 @@ struct CubeOperator {
         .init(
             pieceIndex: z0 + z1 + z2,
             pieceNextIndex: layer3NextIndex(reverse),
-            around: SCNVector3(0, 0, reverse ? 1 : -1)
+            around: IntVector3(0, 0, reverse ? 1 : -1)
         )
     }
 
@@ -171,7 +171,7 @@ struct CubeOperator {
         return .init(
             pieceIndex: x0_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(reverse ? -1 : 1, 0, 0)
+            around: IntVector3(reverse ? -1 : 1, 0, 0)
         )
     }
 
@@ -181,7 +181,7 @@ struct CubeOperator {
             pieceIndex: x0_ + x1_,
             pieceNextIndex: layer2NextIndex(reverse),
             // 要从 x 轴 负轴看, l 才能正旋
-            around: SCNVector3(reverse ? -1 : 1, 0, 0)
+            around: IntVector3(reverse ? -1 : 1, 0, 0)
         )
     }
 
@@ -190,7 +190,7 @@ struct CubeOperator {
         .init(
             pieceIndex: x2,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(reverse ? 1 : -1, 0, 0)
+            around: IntVector3(reverse ? 1 : -1, 0, 0)
         )
     }
 
@@ -199,7 +199,7 @@ struct CubeOperator {
         .init(
             pieceIndex: x1 + x2,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(reverse ? 1 : -1, 0, 0)
+            around: IntVector3(reverse ? 1 : -1, 0, 0)
         )
     }
 
@@ -207,7 +207,7 @@ struct CubeOperator {
         .init(
             pieceIndex: x1_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(reverse ? -1 : 1, 0, 0)
+            around: IntVector3(reverse ? -1 : 1, 0, 0)
         )
     }
 
@@ -215,7 +215,7 @@ struct CubeOperator {
         .init(
             pieceIndex: x0 + x1 + x2,
             pieceNextIndex: layer3NextIndex(reverse),
-            around: SCNVector3(reverse ? 1 : -1, 0, 0)
+            around: IntVector3(reverse ? 1 : -1, 0, 0)
         )
     }
 
@@ -225,7 +225,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y2,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, reverse ? 1 : -1, 0)
+            around: IntVector3(0, reverse ? 1 : -1, 0)
         )
     }
 
@@ -233,7 +233,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y1 + y2,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(0, reverse ? 1 : -1, 0)
+            around: IntVector3(0, reverse ? 1 : -1, 0)
         )
     }
 
@@ -241,7 +241,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y0_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, reverse ? -1 : 1, 0)
+            around: IntVector3(0, reverse ? -1 : 1, 0)
         )
     }
 
@@ -249,7 +249,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y0_ + y1_,
             pieceNextIndex: layer2NextIndex(reverse),
-            around: SCNVector3(0, reverse ? -1 : 1, 0)
+            around: IntVector3(0, reverse ? -1 : 1, 0)
         )
     }
     
@@ -257,7 +257,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y1_,
             pieceNextIndex: nextIndex(reverse),
-            around: SCNVector3(0, reverse ? -1 : 1, 0)
+            around: IntVector3(0, reverse ? -1 : 1, 0)
         )
     }
     
@@ -265,7 +265,7 @@ struct CubeOperator {
         .init(
             pieceIndex: y0 + y1 + y2,
             pieceNextIndex: layer3NextIndex(reverse),
-            around: SCNVector3(0, reverse ? 1 : -1, 0)
+            around: IntVector3(0, reverse ? 1 : -1, 0)
         )
     }
 }
