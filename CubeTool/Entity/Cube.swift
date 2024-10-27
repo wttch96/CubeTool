@@ -37,7 +37,6 @@ extension Cube {
     /// 从系统资源初始化魔方
     init?(systemName: String) {
         guard let url = Bundle.main.url(forResource: systemName, withExtension: "json") else {
-            print("加载魔方 \(systemName).json 失败")
             return nil
         }
         self.init(contentsOf: url)

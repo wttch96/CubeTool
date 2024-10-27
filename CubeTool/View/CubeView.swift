@@ -15,15 +15,14 @@ struct CubeView: NSViewRepresentable {
     
     let cubeNode = CubeNode()
     
-    func exec(_ moveString: String) {
+    func exec(_ moveString: String, action: @escaping () -> Void = {}) {
         let moves = CubeParser.parseMoves(from: moveString)
-        cubeNode.executeMoves(moves)
+        cubeNode.executeMoves(moves, action: action)
     }
     
     func performCube(_ cube: Cube) {
         cubeNode.performCube(cube)
     }
-    
     
     func printCube() {
         var pieces: [[[Piece]]] = []
@@ -58,11 +57,12 @@ struct CubeView: NSViewRepresentable {
         
         // 创建摄像机节点
         let cameraNode = SCNNode()
+        cameraNode.name = "camera"
         cameraNode.camera = SCNCamera()
         // 设置摄像机的位置
         cameraNode.position = SCNVector3(x: 120, y: 120, z: 120)
 //        // 设置摄像机的旋转
-        cameraNode.eulerAngles = SCNVector3(-CGFloat.pi / 5, CGFloat.pi / 4, 0)
+        cameraNode.orientation = SCNQuaternion(-0.3, 0.35, 0.12, 0.88)
         cameraNode.camera?.zFar = 300
         scene.rootNode.addChildNode(cameraNode)
         
@@ -86,7 +86,7 @@ struct CubeView: NSViewRepresentable {
     }
     
     func handleKeyDown(with event: NSEvent) {
-        let cube = self.cubeNode
+        let cube = cubeNode
         let isShiftPressed = event.modifierFlags.contains(.shift)
         let isOptionPressed = event.modifierFlags.contains(.command)
         switch event.keyCode {

@@ -1,0 +1,42 @@
+{
+    "formula": {
+        "F01": "(RU’R’U)y'(R’U2RU’U’)(R’UR)y",
+        "F02": "F(RUR’U’)F’f(RUR’U’)f’",
+        
+        "@commit": "下面都是简单公式",
+        "S-01": "FRUR'U'F'",
+    },
+    "formulaPair": {
+        "F04": "F08",
+        "F05": "F09",
+    },
+    "transition": {
+        "00": {
+            "44": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "UU",
+            },
+        },
+        "01" : {
+            "00": "F01",
+        },
+        "02": {
+            "00": "F02",
+        },
+        "44": {
+            "57": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U",
+            }
+        },
+        "57": {
+            "23": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
+            }
+        }
+    }
+}

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4905415C2CCE86A3004D38A4 /* SwiftLogMacro in Frameworks */ = {isa = PBXBuildFile; productRef = 4905415B2CCE86A3004D38A4 /* SwiftLogMacro */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		49661D082CC647FB00D141B0 /* CubeTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CubeTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -13,6 +17,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		49661D0A2CC647FB00D141B0 /* CubeTool */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+				"Resource/State/F2L/F2L-35.json" = text.json;
+			};
 			path = CubeTool;
 			sourceTree = "<group>";
 		};
@@ -23,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4905415C2CCE86A3004D38A4 /* SwiftLogMacro in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,12 +67,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				4905415E2CCE86B2004D38A4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				49661D0A2CC647FB00D141B0 /* CubeTool */,
 			);
 			name = CubeTool;
 			packageProductDependencies = (
+				4905415B2CCE86A3004D38A4 /* SwiftLogMacro */,
 			);
 			productName = CubeTool;
 			productReference = 49661D082CC647FB00D141B0 /* CubeTool.app */;
@@ -94,6 +104,9 @@
 			);
 			mainGroup = 49661CFF2CC647FB00D141B0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49661D092CC647FB00D141B0 /* Products */;
 			projectDirPath = "";
@@ -123,6 +136,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4905415E2CCE86B2004D38A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4905415D2CCE86B2004D38A4 /* SwiftLogMacro */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		49661D172CC647FC00D141B0 /* Debug */ = {
@@ -321,6 +341,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wttch96/SwiftLogMacro";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4905415B2CCE86A3004D38A4 /* SwiftLogMacro */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
+			productName = SwiftLogMacro;
+		};
+		4905415D2CCE86B2004D38A4 /* SwiftLogMacro */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
+			productName = SwiftLogMacro;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49661D002CC647FB00D141B0 /* Project object */;
 }
