@@ -143,7 +143,7 @@ struct ContentView: View {
                 VStack {
                     HStack {
                         Button("Reset", action: {
-                            cubeView.performCube(Cube(stickerType: .y2Gray))
+                            cubeView.performCube(Cube(stickerType: selected.type == .f2l ? .y2Gray : .topWhite))
                         })
                         
                         Button("Print") {

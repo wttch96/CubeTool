@@ -25,24 +25,7 @@ struct CubeView: NSViewRepresentable {
     }
     
     func printCube() {
-        var pieces: [[[Piece]]] = []
-        for x in 0..<3 {
-            var xPieces: [[Piece]] = []
-            for y in 0..<3 {
-                var yPieces: [Piece] = []
-                for z in 0..<3 {
-                    let node = cubeNode.pieceNodes[x][y][z]
-                    let transform = node.orientation
-                    let piece = Piece(index: node.index, rotate: .from(transform))
-                    yPieces.append(piece)
-                }
-                xPieces.append(yPieces)
-            }
-            pieces.append(xPieces)
-        }
-        let cube = Cube(stickerType: .y2Gray, pieces: pieces)
-        let data = try! JSONEncoder().encode(cube)
-        print(String(data: data, encoding: .utf8)!)
+        cubeNode.printCube()
     }
     
     func makeNSView(context: Context) -> SCNView {

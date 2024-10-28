@@ -65,7 +65,7 @@ class CubeNode: SCNNode {
                 for z in 0..<3 {
                     let piece = cube.pieces[x][y][z]
                     let index = piece.index.x * 9 + piece.index.y * 3 + piece.index.z
-                    let shapeNode = PieceNode(cube.stickerType.pieces[index], index: IntVector3(x, y, z))
+                    let shapeNode = PieceNode(cube.stickerType.pieces[index], index: piece.index)
                     shapeNode.position = SCNVector3((x-1) * Constants.size, (y-1) * Constants.size, (z-1) * Constants.size)
                     shapeNode.worldOrientation = piece.rotate.toSCNQuaternion()
                     addChildNode(shapeNode)
