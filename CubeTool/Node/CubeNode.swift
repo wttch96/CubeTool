@@ -117,7 +117,7 @@ class CubeNode: SCNNode {
         .z_prime: .z(reverse: true)
     ]
     
-    func executeMoves(_ moves: [CubeMove], current: Int = 0, action: @escaping () -> Void = {}) {
+    func executeMoves(_ moves: [CubeMove], duration: Double, current: Int = 0, action: @escaping () -> Void = {}) {
         guard current < moves.count else {
             action()
             return
@@ -140,7 +140,7 @@ class CubeNode: SCNNode {
         
         addChildNode(wrapNode)
         let action1 = SCNAction.sequence([
-            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around.toSCNVector3(), duration: 0.2),
+            SCNAction.rotate(by: CGFloat.pi / 2, around: op.around.toSCNVector3(), duration: Double(duration)),
             SCNAction.run { node in
                 for child in node.childNodes {
                     // 获取子节点在世界坐标系中的旋转
@@ -171,7 +171,7 @@ class CubeNode: SCNNode {
         wrapNode.runAction(action1) {
             self.logger.info("结束执行:\(moves[current])")
             DispatchQueue.main.async {
-                self.executeMoves(moves, current: current + 1, action: action)
+                self.executeMoves(moves, duration: duration, current: current + 1, action: action)
             }
         }
     }

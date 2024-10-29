@@ -3,7 +3,7 @@
         "F01": "(RU’R’U)y'(R’U2RU’U’)(R’UR)y",
         "F02": "F(RUR’U’)F’f(RUR’U’)f’",
         
-        "@commit": "下面都是简单公式",
+        "@comment": "下面都是简单公式",
         "S-01": "FRUR'U'F'",
     },
     "formulaPair": {
@@ -24,8 +24,22 @@
         "02": {
             "00": "F02",
         },
+        "07": {
+            "52": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
+            },
+        },
         "12": {
             "50": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U",
+            },
+        },
+        "18": {
+            "10": {
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U",
@@ -52,7 +66,22 @@
             },
         },
         "44": {
+            "06": {
+                "@comment": "U 后使用简单公式 S-01 ",
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U",
+                "suffix": "UU",
+            },
+            "07": {
+                "@comment": "U' 后使用简单公式 S-01 ",
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U'",
+                "suffix": "U'",
+            },
             "57": {
+                "@comment": "使用简单公式 S-01 ",
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U",
@@ -83,6 +112,13 @@
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U",
+            },
+        },
+        "52": {
+            "18": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
             },
         },
         "53": {

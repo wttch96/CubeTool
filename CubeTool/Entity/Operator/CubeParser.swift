@@ -1,10 +1,3 @@
-//
-//  CubeParser.swift
-//  CubeTool
-//
-//  Created by Wttch on 2024/10/23.
-//
-
 enum CubeParser {
     /// 解析给定公式字符串并返回操作序列
     static func parseMoves(from formula: String) -> [CubeMove] {
@@ -38,21 +31,33 @@ enum CubeParser {
                 move = baseMove
             }
             
-            // 同样处理反向操作和重复操作
+            // 处理反向操作和重复操作，包括多重修饰符的组合
             if i < formula.index(before: formula.endIndex) {
                 let nextChar = String(formula[formula.index(after: i)])
+                var isReversed = false
+                var repeatCount = 1
+                
+                // 检查是否为反向操作符
                 if nextChar == "'" || nextChar == "’" {
-                    if let baseMove = CubeMove(rawValue: char + "'") {
-                        move = baseMove
-                    }
+                    isReversed = true
                     i = formula.index(after: i)
-                } else if nextChar == "2" {
-                    if let baseMove = CubeMove(rawValue: char) {
-                        moves.append(baseMove)
+                }
+                
+                // 检查是否为重复操作符
+                if i < formula.index(before: formula.endIndex) {
+                    let nextNextChar = String(formula[formula.index(after: i)])
+                    if nextNextChar == "2" {
+                        repeatCount = 2
+                        i = formula.index(after: i)
+                    }
+                }
+                
+                // 根据解析结果构建操作序列
+                if let baseMove = CubeMove(rawValue: isReversed ? "\(char)'" : char) {
+                    for _ in 0..<repeatCount {
                         moves.append(baseMove)
                     }
-                    i = formula.index(after: i)
-                    move = nil
+                    move = nil // 清空当前 move 以防止重复添加
                 }
             }
             
@@ -85,5 +90,4 @@ enum CubeParser {
         
         return formula.endIndex // 如果没有找到匹配的括号，返回字符串末尾
     }
-    
 }

@@ -35,6 +35,7 @@ struct CubeFormula: Decodable, Equatable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             type = try container.decode(FormulaType.self, forKey: .type)
             value = try container.decode(String.self, forKey: .value)
+            prefix = try container.decodeIfPresent(String.self, forKey: .prefix)
             append = try container.decodeIfPresent(String.self, forKey: .suffix)
         } catch {
             let container = try decoder.singleValueContainer()

@@ -15,9 +15,9 @@ struct CubeView: NSViewRepresentable {
     
     let cubeNode = CubeNode()
     
-    func exec(_ moveString: String, action: @escaping () -> Void = {}) {
+    func exec(_ moveString: String, duration: Double, action: @escaping () -> Void = {}) {
         let moves = CubeParser.parseMoves(from: moveString)
-        cubeNode.executeMoves(moves, action: action)
+        cubeNode.executeMoves(moves, duration: duration, action: action)
     }
     
     func performCube(_ cube: Cube) {
