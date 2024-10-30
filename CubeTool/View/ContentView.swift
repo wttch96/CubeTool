@@ -12,7 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var formula = ""
     @State private var title = ""
-    @State private var selected: CubeStateIndex = .f2l(0)
+    @State private var selected: CubeStateIndex = .init(type: .f2l, index: 0)
     
     /// F2L 状态转换
     private let f2lTransitions = CubeTransition.from(systemName: "F2L-transition")
@@ -25,6 +25,8 @@ struct ContentView: View {
     @State private var autoChangeState = false
 
     @AppStorage("op-duration") private var duration: Double = 0.2
+    
+    @Namespace private var namespace
     
     var body: some View {
         NavigationSplitView(sidebar: {
@@ -40,11 +42,18 @@ struct ContentView: View {
                             ForEach(0 ... 41, id: \.self) { i in
                                 let index = CubeStateIndex.f2l(i)
                                 CubeStateThumbnail(index: index)
-                                    .frame(width: 36, height: 56)
+                                    .frame(width: 38, height: 56)
                                     .onTapGesture {
-                                        selected = .f2l(i)
-                                        curTransition = transitions.transition[index.indexString] ?? [:]
+                                        withAnimation {
+                                            selected = .f2l(i)
+                                            curTransition = transitions.transition[index.indexString] ?? [:]
+                                        }
                                     }
+                                    .padding(4)
+                                    .padding(.trailing, 2)
+                                    .background(RoundedRectangle(cornerRadius: 4)
+                                        .fill(selected == index ? Color.accentColor : .clear))
+                                    .matchedGeometryEffect(id: index, in: namespace)
                             }
                         }
                         Spacer()
@@ -60,13 +69,20 @@ struct ContentView: View {
                             GridItem(.adaptive(minimum: 40))
                         ]) {
                             ForEach(0 ... 57, id: \.self) { i in
-                                let index = CubeStateIndex(type: .oll, index: i)
+                                let index =  CubeStateIndex.oll(i)
                                 CubeStateThumbnail(index: index)
                                     .frame(width: 36, height: 56)
                                     .onTapGesture {
-                                        selected = index
-                                        curTransition = transitions.transition[index.indexString] ?? [:]
+                                        withAnimation {
+                                            selected = index
+                                            curTransition = transitions.transition[index.indexString] ?? [:]
+                                        }
                                     }
+                                    .padding(4)
+                                    .padding(.trailing, 4)
+                                    .background(RoundedRectangle(cornerRadius: 4)
+                                        .fill(selected == index ? Color.accentColor : .clear))
+                                    .matchedGeometryEffect(id: index, in: namespace)
                             }
                         }
                     }
@@ -111,7 +127,7 @@ struct ContentView: View {
                                            let origin = transitions.origin(formulaKey, selected.indexString),
                                            let originIndex = Int(origin)
                                         {
-                                            let o: CubeStateIndex = selected.type == .f2l ? .f2l(originIndex) : .oll(originIndex)
+                                            let o: CubeStateIndex = selected.update(newIndex: originIndex)
                                             CubeStateThumbnail(index: o)
                                                 .frame(width: 36, height: 54)
                                             stepView(formulaKey: formulaKey)
@@ -125,7 +141,7 @@ struct ContentView: View {
                                         
                                         stepView(formulaKey: formulaKey)
                                         
-                                        let o: CubeStateIndex = selected.type == .f2l ? .f2l(Int(key) ?? 0) : .oll(Int(key) ?? 0)
+                                        let o: CubeStateIndex = selected.update(newIndex: Int(key) ?? 0)
                                         CubeStateThumbnail(index: o)
                                             .frame(width: 36, height: 54)
                                     }

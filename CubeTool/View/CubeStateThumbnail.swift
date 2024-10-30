@@ -28,6 +28,6 @@ struct CubeStateThumbnail: View {
 }
 
 #Preview {
-    CubeStateThumbnail(index: .f2l(0))
+    CubeStateThumbnail(index: .init(type: .f2l, index: 0))
         .frame(width: 36)
 }
