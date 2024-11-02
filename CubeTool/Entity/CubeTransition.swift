@@ -9,62 +9,63 @@ import Foundation
 
 /// 公式的定义
 struct CubeFormula: Decodable, Equatable {
-    /// 公式的类型
-    let type: FormulaType
-    /// 公式的值,  `type` 是 key, 则是公式的key的值
-    /// `type` 是 origin, 则是公式的原始值
-    let value: String
+    let key: String?
     /// 公式的前缀
     let prefix: String?
     /// 公式的附加值
     let suffix: String?
 
     let formula: String?
+    
+    let sort: Int
 
     enum CodingKeys: CodingKey {
-        case type
-        case value
+        case key
         case formula
         case prefix
         case suffix
+        case sort
     }
 
     init(from decoder: any Decoder) throws {
-        var type: FormulaType = .key
-        var value = ""
         var append: String? = nil
         var prefix: String? = nil
         var formula: String? = nil
+        var key: String? = nil
+        var sort = 0
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             // 尝试 formula
             try formula = container.decodeIfPresent(String.self, forKey: .formula)
             // 结束
             if formula == nil {
-                type = try container.decode(FormulaType.self, forKey: .type)
-                value = try container.decode(String.self, forKey: .value)
+                key = try container.decodeIfPresent(String.self, forKey: .key)
                 prefix = try container.decodeIfPresent(String.self, forKey: .prefix)
                 append = try container.decodeIfPresent(String.self, forKey: .suffix)
-            } else {
-                print("A")
+                sort = try container.decodeIfPresent(Int.self, forKey: .sort) ?? 0
             }
         } catch {
             let container = try decoder.singleValueContainer()
-            type = .key
-            value = try container.decode(String.self)
+            key = try container.decode(String.self)
             append = nil
             prefix = nil
         }
-        self.type = type
-        self.value = value
+        self.key = key
         self.suffix = append
         self.prefix = prefix
         self.formula = formula
+        self.sort = sort
     }
 
     enum FormulaType: String, Decodable {
         case key
         case origin
+    }
+}
+
+extension CubeFormula: Comparable {
+    static func < (lhs: CubeFormula, rhs: CubeFormula) -> Bool {
+        return lhs.sort < rhs.sort
     }
 }
 
@@ -88,12 +89,11 @@ extension CubeTransition {
         if let formula = cubeFormula.formula {
             return formula
         }
-        switch cubeFormula.type {
-        case .key:
-            return formula[cubeFormula.value] ?? ""
-        case .origin:
-            return cubeFormula.value
+        if let key = cubeFormula.key {
+            return self.formula[key] ?? ""
         }
+        
+        return ""
     }
 
     func completeFormula(_ formula: CubeFormula?) -> String {

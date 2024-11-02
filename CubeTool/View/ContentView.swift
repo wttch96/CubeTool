@@ -22,7 +22,7 @@ struct ContentView: View {
     private let cubeView = CubeView()
     
     @State private var curTransition: [String: CubeFormula] = [:]
-    @State private var autoChangeState = false
+    @AppStorage("auto-change-state") private var autoChangeState = false
     @State private var statesLeadingTo: [String: CubeFormula] = [:]
 
     @AppStorage("op-duration") private var duration: Double = 0.2
@@ -91,7 +91,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .frame(minWidth: 360)
+            .frame(minWidth: 480)
         }, detail: {
             VStack {
                 Toggle("完成后自动切换状态", isOn: $autoChangeState)
@@ -106,8 +106,8 @@ struct ContentView: View {
                                     HStack {
                                         Spacer()
                                         VStack(alignment: .trailing) {
-                                            if formulaKey.type == .key {
-                                                Text(formulaKey.value)
+                                            if let key = formulaKey.key {
+                                                Text(key)
                                             }
                                             Text(transitions.completeFormula(formulaKey))
                                                 .font(.title3)
@@ -146,6 +146,7 @@ struct ContentView: View {
                     
                     ScrollView {
                         VStack {
+                            // 可以转换的状态
                             ForEach(curTransition.keys.sorted(), id: \.self) { key in
                                 VStack(alignment: .trailing) {
                                     if let formulaKey = curTransition[key] {
@@ -155,8 +156,8 @@ struct ContentView: View {
                                             CubeStateThumbnail(index: o)
                                                 .frame(width: 36, height: 54)
                                             VStack(alignment: .leading) {
-                                                if formulaKey.type == .key && formulaKey.formula == nil {
-                                                    Text(formulaKey.value)
+                                                if let key = formulaKey.key {
+                                                    Text(key)
                                                 }
                                                 HStack(spacing: 2) {
                                                     if let prefix = formulaKey.prefix {
@@ -242,8 +243,10 @@ extension ContentView {
     @ViewBuilder
     func stepView(formulaKey: CubeFormula) -> some View {
         VStack {
-            Text(formulaKey.type == .key ? formulaKey.value : "")
-                .font(.footnote)
+            if let key = formulaKey.key {
+                Text(key)
+                    .font(.footnote)
+            }
             Image(systemName: "arrowshape.right")
         }
         .offset(y: -12)

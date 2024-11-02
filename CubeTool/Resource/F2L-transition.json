@@ -256,8 +256,7 @@
         },
         "38": {
             "00": {
-                "type": "origin",
-                "value": "(RU'R'U)(RU'R'U2)(RU'R')"
+                "formula": "(RU'R'U)(RU'R'U2)(RU'R')",
             },
         },
         "39": {
@@ -272,8 +271,7 @@
         },
         "41": {
             "00": {
-                "type": "origin",
-                "value": "U'(RU’R’U)(RUR’)"
+                "formula": "U'(RU’R’U)(RUR’)",
             },
         },
     }
