@@ -5,8 +5,7 @@
         "F05": "(RF)U(RU'R'F')(U'R')",
         "F08": "(RU'R'U)(RU'U'R'U)(RU'R')",
         "F09": "(RU)F(RUR'U')F'R'",
-        
-        
+
         "@commit": "下面都是简单公式",
         "S-01": "(RU'R')",
         "S-02": "y'(R'UR)y",
@@ -21,13 +20,13 @@
         "F05": "F09",
     },
     "transition": {
-        "00" : {
+        "00": {
             "01": "F01",
             "04": "F08",
             "05": "F09",
             "08": "F04",
             "09": "F05",
-            
+
             "40": "S-01",
             "25": "S-02",
             "31": "S-03",
@@ -36,11 +35,11 @@
             "10": "S-06",
             "07": "S-07",
         },
-        "01" : {
+        "01": {
             "00": "F01",
             "04": "F09",
             "08": "F05",
-            
+
             "36": "S-01",
             "29": "S-02",
             "27": "S-03",
@@ -49,14 +48,12 @@
         },
         "02": {
             "00": {
-                "type": "origin",
-                "value": "(URU'R'U')y'(R'UR)y",
+                "formula": "(URU'R'U')y'(R'UR)y",
             }
         },
         "03": {
             "00": {
-                "type": "origin",
-                "value": "(R’F’RU)(RU’R’F)",
+                "formula": "(R’F’RU)(RU’R’F)",
             },
         },
         "04": {
@@ -64,7 +61,7 @@
             "01": "F05",
             "08": "F08",
             "09": "F09",
-            
+
             "30": "S-01",
             "15": "S-02",
             "21": "S-03",
@@ -76,7 +73,7 @@
         "05": {
             "00": "F05",
             "08": "F09",
-            
+
             "26": "S-01",
             "19": "S-02",
             "17": "S-03",
@@ -85,14 +82,12 @@
         },
         "06": {
             "00": {
-                "type": "origin",
-                "value": "y'(R’U’RU)(R’U’R)y",
+                "formula": "y'(R’U’RU)(R’U’R)y",
             },
         },
         "07": {
             "00": {
-                "type": "origin",
-                "value": "(RU’R’U)(RU’R’)",
+                "formula": "(RU’R’U)(RU’R’)",
             },
         },
         "08": {
@@ -100,7 +95,7 @@
             "01": "F09",
             "04": "F04",
             "05": "F05",
-            
+
             "20": "S-01",
             "35": "S-02",
             "41": "S-03",
@@ -112,7 +107,7 @@
         "09": {
             "00": "F09",
             "04": "F05",
-            
+
             "16": "S-01",
             "39": "S-02",
             "37": "S-03",
@@ -121,170 +116,142 @@
         },
         "10": {
             "00": {
-                "type": "origin",
-                "value": "y'(R’URU’)(R’UR)y",
+                "formula": "y'(R’URU’)(R’UR)y",
             },
         },
         "11": {
             "00": {
-                "type": "origin",
-                "value": "(RUR’U’)(RUR’)",
+                "formula": "(RUR’U’)(RUR’)",
             },
         },
         "12": {
             "00": {
-                "type": "origin",
-                "value": "(RUR'U')2(RUR')",
+                "formula": "(RUR'U')2(RUR')",
             },
         },
         "13": {
             "00": {
-                "type": "origin",
-                "value": "(RU'R'U)y'(R'UR)y",
+                "formula": "(RU'R'U)y'(R'UR)y",
             },
         },
         "14": {
             "00": {
-                "type": "origin",
-                "value": "y'(R’U2)(RUR’U’R)y",
+                "formula": "y'(R’U2)(RUR’U’R)y",
             },
         },
         "15": {
             "00": {
-                "type": "origin",
-                "value": "y'U'(R'U2)(RU'R'UR)y",
+                "formula": "y'U'(R'U2)(RU'R'UR)y",
             },
         },
         "16": {
             "00": {
-                "type": "origin",
-                "value": "y'(R'URU'U')(R'U'R)",
+                "formula": "y'(R'URU'U')(R'U'R)",
             }
         },
         "17": {
             "00": {
-                "type": "origin",
-                "value": "FU(RU’R’F’)(RU’R’)",
+                "formula": "FU(RU’R’F’)(RU’R’)",
             },
         },
         "18": {
             "00": {
-                "type": "origin",
-                "value": "U(RU'R'U')(RU'R'U)(RU'R')",
+                "formula": "U(RU'R'U')(RU'R'U)(RU'R')",
             },
         },
         "19": {
             "00": {
-                "type": "origin",
-                "value": "(RU’R’U2)(RUR’)",
+                "formula": "(RU’R’U2)(RUR’)",
             },
         },
         "20": {
             "00": {
-                "type": "origin",
-                "value": "U(RU'U')(R'URU'R')",
+                "formula": "U(RU'U')(R'URU'R')",
             },
         },
         "21": {
             "00": {
-                "type": "origin",
-                "value": "(RU'U')(R'U'RUR')",
+                "formula": "(RU'U')(R'U'RUR')",
             },
         },
         "22": {
             "00": {
-                "type": "origin",
-                "value": "U’(RU’R’U2)(RU’R’)",
+                "formula": "U’(RU’R’U2)(RU’R’)",
             },
         },
         "23": {
             "00": {
-                "type": "origin",
-                "value": "U’(RUR’)y'(UR’U’R)",
+                "formula": "U’(RUR’)y'(UR’U’R)",
             },
         },
         "24": {
             "00": {
-                "type": "origin",
-                "value": "y'U(R'URU')(R'U'R)y",
+                "formula": "y'U(R'URU')(R'U'R)y",
             },
         },
         "25": {
             "00": {
-                "type": "origin",
-                "value": "y'(R'U'R)y",
+                "formula": "y'(R'U'R)y",
             },
         },
         "26": {
             "00": {
-                "type": "origin",
-                "value": "y’U(R’U’RU’)(R’U’R)y",
+                "formula": "y’U(R’U’RU’)(R’U’R)y",
             },
         },
         "27": {
             "00": {
-                "type": "origin",
-                "value": "y'(RU'U')(R'2U')(R2U'R')",
+                "formula": "y'(RU'U')(R'2U')(R2U'R')",
             },
         },
         "28": {
             "00": {
-                "type": "origin",
-                "value": "(lU)(rU’r’U’)l’",
+                "formula": "(lU)(rU’r’U’)l’",
             },
         },
         "29": {
             "00": {
-                "type": "origin",
-                "value": "U'(RU'U')(R'U2)(RU'R')",
+                "formula": "U'(RU'U')(R'U2)(RU'R')",
             },
         },
         "30": {
             "00": {
-                "type": "origin",
-                "value": "U'(RUR'U')(RU'U'R')",
+                "formula": "U'(RUR'U')(RU'U'R')",
             },
         },
         "31": {
             "00": {
-                "type": "origin",
-                "value": "URU'R'",
+                "formula": "URU'R'",
             },
         },
         "32": {
             "00": {
-                "type": "origin",
-                "value": "U’(RU’U’R’U)(RUR’)",
+                "formula": "U’(RU’U’R’U)(RUR’)",
             },
         },
         "33": {
             "00": {
-                "type": "origin",
-                "value": "y’U(R’U’R)d’(RUR’)",
+                "formula": "y’U(R’U’R)d’(RUR’)",
             },
         },
         "34": {
             "00": {
-                "type": "origin",
-                "value": "y'U'(R'UR)y",
+                "formula": "y'U'(R'UR)y",
             },
         },
         "35": {
             "00": {
-                "type": "origin",
-                "value": "y'U(R'U'RU'U')(R'UR)y",
+                "formula": "y'U(R'U'RU'U')(R'UR)y",
             },
         },
         "36": {
             "00": {
-                "type": "origin",
-                "value": "y'U(R'U2RU'U')(R'UR)y",
+                "formula": "y'U(R'U2RU'U')(R'UR)y",
             },
         },
         "37": {
             "00": {
-                "type": "origin",
-                "value": "(RU'R'U2)y'(R'U'R)y",
+                "formula": "(RU'R'U2)y'(R'U'R)y",
             },
         },
         "38": {
@@ -295,14 +262,12 @@
         },
         "39": {
             "00": {
-                "type": "origin",
-                "value": "U'(RUR'U)(RUR')",
+                "formula": "U'(RUR'U)(RUR')",
             },
         },
         "40": {
             "00": {
-                "type": "origin",
-                "value": "(RUR')",
+                "formula": "(RUR')",
             },
         },
         "41": {

@@ -8,35 +8,23 @@
 import Foundation
 import SceneKit
 
+/// 魔方操作
 struct CubeOperator {
+    /// 旋转的块的索引
     var pieceIndex: [(x: Int, y: Int, z: Int)]
+    /// 旋转后的块的索引
     var pieceNextIndex: [Int]
+    /// 旋转的方向
     var around: IntVector3
 
+    /// 初始化
     init(pieceIndex: [(x: Int, y: Int, z: Int)], pieceNextIndex: [Int], around: IntVector3) {
         self.pieceIndex = pieceIndex
         self.pieceNextIndex = pieceNextIndex
         self.around = around
     }
 
-    init(pieceIndex: [(x: Int, y: Int, z: Int)], clockwise: Bool, around: IntVector3) {
-        self.pieceIndex = pieceIndex
-        self.pieceNextIndex = if clockwise {
-            [
-                2, 5, 8,
-                1, 4, 7,
-                0, 3, 6
-            ]
-        } else {
-            [
-                6, 3, 0,
-                7, 4, 1,
-                8, 5, 2
-            ]
-        }
-        self.around = around
-    }
-
+    /// 将层的索引顺序反向
     private static func reverseLayer(layer x: [(x: Int, y: Int, z: Int)]) -> [(x: Int, y: Int, z: Int)] {
         return [
             x[2], x[1], x[0],

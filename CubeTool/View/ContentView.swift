@@ -23,6 +23,7 @@ struct ContentView: View {
     
     @State private var curTransition: [String: CubeFormula] = [:]
     @State private var autoChangeState = false
+    @State private var statesLeadingTo: [String: CubeFormula] = [:]
 
     @AppStorage("op-duration") private var duration: Double = 0.2
     
@@ -47,6 +48,7 @@ struct ContentView: View {
                                         withAnimation {
                                             selected = .f2l(i)
                                             curTransition = transitions.transition[index.indexString] ?? [:]
+                                            statesLeadingTo = transitions.statesLeadingTo(currentState: selected.indexString)
                                         }
                                     }
                                     .padding(4)
@@ -69,13 +71,14 @@ struct ContentView: View {
                             GridItem(.adaptive(minimum: 40))
                         ]) {
                             ForEach(0 ... 57, id: \.self) { i in
-                                let index =  CubeStateIndex.oll(i)
+                                let index = CubeStateIndex.oll(i)
                                 CubeStateThumbnail(index: index)
                                     .frame(width: 36, height: 56)
                                     .onTapGesture {
                                         withAnimation {
                                             selected = index
                                             curTransition = transitions.transition[index.indexString] ?? [:]
+                                            statesLeadingTo = transitions.statesLeadingTo(currentState: selected.indexString)
                                         }
                                     }
                                     .padding(4)
@@ -90,80 +93,113 @@ struct ContentView: View {
             }
             .frame(minWidth: 360)
         }, detail: {
-            HStack {
-                ScrollView {
-                    VStack {
-                        Toggle("完成后自动切换状态", isOn: $autoChangeState)
-                        ForEach(curTransition.keys.sorted(), id: \.self) { key in
-                            VStack(alignment: .leading) {
-                                if let formulaKey = curTransition[key] {
-                                    let formula = transitions.formula(formulaKey)
+            VStack {
+                Toggle("完成后自动切换状态", isOn: $autoChangeState)
+                HStack {
+                    Spacer()
+                    
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            ForEach(Array(statesLeadingTo.keys), id: \.self) { state in
+                                if let formulaKey = statesLeadingTo[state] {
+                                    let o: CubeStateIndex = selected.update(newIndex: Int(state) ?? 0)
                                     HStack {
-                                        if formulaKey.type == .key {
-                                            Text(formulaKey.value)
-                                                .font(.title3)
-                                        } else {
-                                            Text("式")
-                                                .foregroundColor(.green)
-                                                .font(.title3)
-                                        }
-                                        
-                                        if let prefix = formulaKey.prefix {
-                                            Text(prefix)
-                                                .foregroundColor(.red)
-                                        }
-                                        Text(formula)
-                                        if let suffix = formulaKey.suffix {
-                                            Text(suffix)
-                                                .foregroundColor(.blue)
-                                        }
                                         Spacer()
-                                    }
-                                    .bold()
-                                    .font(.subheadline)
-                                    HStack {
-                                        // 前一状态
-                                        if formulaKey.value.starts(with: "F"),
-                                           let origin = transitions.origin(formulaKey, selected.indexString),
-                                           let originIndex = Int(origin)
-                                        {
-                                            let o: CubeStateIndex = selected.update(newIndex: originIndex)
-                                            CubeStateThumbnail(index: o)
-                                                .frame(width: 36, height: 54)
-                                            stepView(formulaKey: formulaKey)
+                                        VStack(alignment: .trailing) {
+                                            if formulaKey.type == .key {
+                                                Text(formulaKey.value)
+                                            }
+                                            Text(transitions.completeFormula(formulaKey))
+                                                .font(.title3)
+                                                .bold()
                                         }
-                                        VStack {
-                                            Image(systemName: "mappin.and.ellipse")
-                                                .font(.title)
-                                            Text(selected.indexString)
-                                        }
-                                        .bold()
-                                        
-                                        stepView(formulaKey: formulaKey)
-                                        
-                                        let o: CubeStateIndex = selected.update(newIndex: Int(key) ?? 0)
+                                        .offset(y: -8)
                                         CubeStateThumbnail(index: o)
                                             .frame(width: 36, height: 54)
                                     }
-                                }
-                            }
-                            .onTapGesture {
-                                // formula = curTransition[key]
-                                cubeView.exec(transitions.completeFormula(curTransition[key]), duration: duration) {
-                                    if self.autoChangeState {
-                                        let name = key
-                                        logger.info("切换状态:\(name)")
-                                        selected = selected.type == .f2l ? .f2l(Int(name) ?? 0) : .oll(Int(name) ?? 0)
-                                        curTransition = transitions.transition[name] ?? [:]
+                                    .onTapGesture {
+                                        if let cube = Cube(systemName: o.filename) {
+                                            cubeView.performCube(cube)
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                cubeView.exec(self.transitions.completeFormula(formulaKey), duration: duration) {}
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            Spacer()
                         }
-                        Spacer()
+                        .frame(width: 300)
+                        .padding(.trailing)
                     }
+                    
+                    HStack {
+                        Image(systemName: "arrowshape.right")
+                        VStack {
+                            Image(systemName: "mappin.and.ellipse")
+                                .font(.title)
+                            Text(selected.indexString)
+                        }
+                        Image(systemName: "arrowshape.right")
+                    }
+                    .bold()
+                    
+                    ScrollView {
+                        VStack {
+                            ForEach(curTransition.keys.sorted(), id: \.self) { key in
+                                VStack(alignment: .trailing) {
+                                    if let formulaKey = curTransition[key] {
+                                        let o: CubeStateIndex = selected.update(newIndex: Int(key) ?? 0)
+                                        
+                                        HStack {
+                                            CubeStateThumbnail(index: o)
+                                                .frame(width: 36, height: 54)
+                                            VStack(alignment: .leading) {
+                                                if formulaKey.type == .key && formulaKey.formula == nil {
+                                                    Text(formulaKey.value)
+                                                }
+                                                HStack(spacing: 2) {
+                                                    if let prefix = formulaKey.prefix {
+                                                        Text(prefix)
+                                                            .foregroundColor(.red)
+                                                    }
+                                                    Text(transitions.formula(formulaKey))
+                                                    if let suffix = formulaKey.suffix {
+                                                        Text(suffix)
+                                                            .foregroundColor(.blue)
+                                                    }
+                                                }
+                                                .font(.title3)
+                                                .bold()
+                                            }
+                                            .offset(y: -8)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                .onTapGesture {
+                                    // formula = curTransition[key]
+                                    cubeView.exec(transitions.completeFormula(curTransition[key]), duration: duration) {
+                                        if self.autoChangeState {
+                                            let name = key
+                                            logger.info("切换状态:\(name)")
+                                            selected = selected.type == .f2l ? .f2l(Int(name) ?? 0) : .oll(Int(name) ?? 0)
+                                            curTransition = transitions.transition[name] ?? [:]
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer()
+                        }
+                        .frame(width: 300)
+                    }
+                    
+                    Spacer()
                 }
+                .padding()
                 
                 Spacer()
+                
                 VStack {
                     HStack {
                         Slider(value: $duration, in: 0 ... 1, step: 0.05)
@@ -177,6 +213,9 @@ struct ContentView: View {
                         Button("Print") {
                             cubeView.printCube()
                         }
+                        Button("FRUR'U'F'") {
+                            cubeView.exec("FRUR'U'F'", duration: duration)
+                        }
                     }
                     cubeView
                         .frame(width: 300, height: 300)
@@ -188,9 +227,7 @@ struct ContentView: View {
                     
                     Spacer()
                 }
-                .frame(width: 300)
             }
-            .padding()
         })
         .navigationTitle(selected.indexString)
         .onChange(of: selected) { _, newValue in

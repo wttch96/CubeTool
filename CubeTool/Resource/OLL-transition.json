@@ -2,6 +2,8 @@
     "formula": {
         "F01": "(RU’R’U)y'(R’U2RU’U’)(R’UR)y",
         "F02": "F(RUR’U’)F’f(RUR’U’)f’",
+        "F28": "(rUR’U’)(r’RU)(RU’R’)",
+        "F57": "(RUR’U’)M’(URU’r’)",
         
         "@comment": "下面都是简单公式",
         "S-01": "FRUR'U'F'",
@@ -17,24 +19,80 @@
                 "value": "S-01",
                 "suffix": "UU",
             },
+            
+            "28": "F57",
+            "57": "F28",
         },
         "01" : {
             "00": "F01",
         },
         "02": {
             "00": "F02",
+            "44": "S-01",
+        },
+        "03": {
+            "00": {
+                "formula": "f(RUR’U’)f’U’F(RUR’U’)F’",
+            }
+        },
+        "04": {
+            "00": {
+                "formula": "f(RUR’U’)f’UF(RUR’U’)F’",
+            },
         },
         "06": {
+            "00": {
+                "formula": "(rU’U’)(R’U’RU’r’)",
+            },
             "44": {
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U",
-            }
-        },
-        "07": {
+            },
+            "40": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U",
+                "suffix": "U",
+            },
             "52": {
                 "type": "key",
                 "value": "S-01",
+                "prefix": "U'",
+                "suffix": "U",
+            },
+            "09": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U2",
+                "suffix": "U",
+            },
+        },
+        "07": {
+            "00": {
+                "formula": "(rUR’U)(RU’U’r’)",
+            },
+            "52": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
+            },
+            "11": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U",
+                "suffix": "U",
+            },
+            "44": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U'",
+                "suffix": "U'",
+            },
+            "39": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U2",
                 "suffix": "U'",
             },
         },
@@ -43,6 +101,16 @@
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U",
+            },
+        },
+        "11": {
+            "00": {
+                "formula": "(r’F’U’F)(rU’r’U’r)",
+            },
+            "51": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
             },
         },
         "12": {
@@ -66,6 +134,13 @@
                 "suffix": "U",
             },
         },
+        "22": {
+            "42": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
+            },
+        },
         "23": {
             "12": {
                 "type": "key",
@@ -73,11 +148,35 @@
                 "suffix": "U",
             }
         },
+        "25": {
+            "00": {
+                "formula": "F’(rUR’U’)(r’FR)",
+            },
+            "31": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U'",
+            },
+        },
         "26": {
             "43": {
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U'",
+            },
+        },
+        "28": {
+            "00": "F28",
+            "57": "F57",
+        },
+        "31": {
+            "00": {
+                "formula": "(r’F’UF)(rU’r’U’r)",
+            },
+            "54": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U",
             },
         },
         "38": {
@@ -87,13 +186,43 @@
                 "suffix": "UU",
             },
         },
+        "39": {
+            "00": {
+                "formula": "(RUR’F’U’F)U(RU2R’)",
+            },
+            "23": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U2",
+            },
+        },
+        "40": {
+            "00": {
+                "formula": "(R’F)(RUR’U’)F’(UR)",
+            },
+            "23": {
+                "type": "key",
+                "value": "S-01",
+            },
+        },
+        "42": {
+            "00": {
+                "formula": "(R’U’RU’)(R’U2R)F(RUR’U’)F’",
+            },
+        },
         "43": {
+            "00": {
+                "formula": "(B’U’)(R’URB)",
+            },
             "49": {
                 "type": "key",
                 "value": "S-01",
             },
         },
         "44": {
+            "00": {
+                "formula": "f(RUR’U’)f’",
+            },
             "06": {
                 "@comment": "U 后使用简单公式 S-01 ",
                 "type": "key",
@@ -108,6 +237,13 @@
                 "prefix": "U'",
                 "suffix": "U'",
             },
+            "51": {
+                "@comment": "UU 后使用简单公式 S-01 ",
+                "type": "key",
+                "value": "S-01",
+                "prefix": "UU",
+                "suffix": "UU",
+            },
             "57": {
                 "@comment": "使用简单公式 S-01 ",
                 "type": "key",
@@ -116,7 +252,7 @@
             }
         },
         "46": {
-            "26": {
+            "02": {
                 "type": "key",
                 "value": "S-01",
                 "suffix": "UU",
@@ -139,6 +275,28 @@
             "46": {
                 "type": "key",
                 "value": "S-01",
+                "suffix": "UU",
+            },
+        },
+        "51": {
+            "00": {
+                "formula": "f(RUR’U’)2f’",
+            },
+            "23": {
+                "type": "key",
+                "value": "S-01",
+                "suffix": "U",
+            },
+            "04": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U",
+                "suffix": "U'",
+            },
+            "03": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U'",
                 "suffix": "U",
             },
         },
@@ -156,12 +314,36 @@
                 "suffix": "U'U'",
             },
         },
+        "54": {
+            "00": {
+                "formula": "(rU’U’)(R’U’RU)(R’U’RU’r’)",
+            },
+            "51": {
+                "type": "key",
+                "value": "S-01",
+            },
+        },
+        "55": {
+            "00": {
+                "formula": "(rU’U’R’U’)(r’R2UR’U’)(rU’r’)",
+            },
+            "22": "S-01",
+        },
         "57": {
+            "00": "F57",
+            
+            "28": "F28",
             "23": {
                 "type": "key",
                 "value": "S-01",
                 "suffix": "U'",
-            }
+            },
+            "18": {
+                "type": "key",
+                "value": "S-01",
+                "prefix": "U",
+                "suffix": "U",
+            },
         }
     }
 }

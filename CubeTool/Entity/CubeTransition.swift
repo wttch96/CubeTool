@@ -19,9 +19,12 @@ struct CubeFormula: Decodable, Equatable {
     /// 公式的附加值
     let suffix: String?
 
+    let formula: String?
+
     enum CodingKeys: CodingKey {
         case type
         case value
+        case formula
         case prefix
         case suffix
     }
@@ -31,12 +34,20 @@ struct CubeFormula: Decodable, Equatable {
         var value = ""
         var append: String? = nil
         var prefix: String? = nil
+        var formula: String? = nil
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            type = try container.decode(FormulaType.self, forKey: .type)
-            value = try container.decode(String.self, forKey: .value)
-            prefix = try container.decodeIfPresent(String.self, forKey: .prefix)
-            append = try container.decodeIfPresent(String.self, forKey: .suffix)
+            // 尝试 formula
+            try formula = container.decodeIfPresent(String.self, forKey: .formula)
+            // 结束
+            if formula == nil {
+                type = try container.decode(FormulaType.self, forKey: .type)
+                value = try container.decode(String.self, forKey: .value)
+                prefix = try container.decodeIfPresent(String.self, forKey: .prefix)
+                append = try container.decodeIfPresent(String.self, forKey: .suffix)
+            } else {
+                print("A")
+            }
         } catch {
             let container = try decoder.singleValueContainer()
             type = .key
@@ -48,6 +59,7 @@ struct CubeFormula: Decodable, Equatable {
         self.value = value
         self.suffix = append
         self.prefix = prefix
+        self.formula = formula
     }
 
     enum FormulaType: String, Decodable {
@@ -73,6 +85,9 @@ struct CubeTransition: Decodable {
 extension CubeTransition {
     /// 获取公式的字符串
     func formula(_ cubeFormula: CubeFormula) -> String {
+        if let formula = cubeFormula.formula {
+            return formula
+        }
         switch cubeFormula.type {
         case .key:
             return formula[cubeFormula.value] ?? ""
@@ -113,5 +128,24 @@ extension CubeTransition {
             }
         }
         return nil
+    }
+
+    /// 获取哪个状态通过 formulaKey 公式可以转变为 currentState 状态
+    func statesLeadingTo(currentState: String) -> [String: CubeFormula] {
+        var result: [String: CubeFormula] = [:]
+
+        for (from, toTransition) in transition {
+            for (to, key) in toTransition {
+                if to == currentState {
+                    result[from] = key
+                }
+            }
+        }
+
+        return result
+    }
+
+    func reachableStates(from state: String) -> [String: CubeFormula] {
+        return [:]
     }
 }
