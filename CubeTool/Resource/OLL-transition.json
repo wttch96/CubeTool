@@ -4,355 +4,444 @@
         "F02": "F(RUR’U’)F’f(RUR’U’)f’",
         "F28": "(rUR’U’)(r’RU)(RU’R’)",
         "F57": "(RUR’U’)M’(URU’r’)",
-        
+
         "@comment": "下面都是简单公式",
-        "S-01": "FRUR'U'F'",
-    },
-    "formulaPair": {
-        "F04": "F08",
-        "F05": "F09",
+        "S-01": "FRUR'U'F'"
     },
     "transition": {
-        "00": {
-            "44": {
+        "00": [
+            {
+                "reach": 44,
                 "key": "S-01",
-                "suffix": "UU",
+                "suffix": "UU"
             },
-            
-            "28": "F57",
-            "57": "F28",
-        },
-        "01" : {
-            "00": "F01",
-        },
-        "02": {
-            "00": "F02",
-            "44": "S-01",
-        },
-        "03": {
-            "00": {
-                "formula": "f(RUR’U’)f’U’F(RUR’U’)F’",
+            {
+                "reach": 28,
+                "key": "F57"
+            },
+            {
+                "reach": 57,
+                "key": "F28"
             }
-        },
-        "04": {
-            "00": {
-                "formula": "f(RUR’U’)f’UF(RUR’U’)F’",
+        ],
+        "01": [
+            {
+                "reach": 0,
+                "key": "F01"
+            }
+        ],
+        "02": [
+            {
+                "reach": 0,
+                "key": "F02"
             },
-        },
-        "05": {
-            "00": {
-                "formula": "(r’U2)(RUR’U)r",
+            {
+                "reach": 44,
+                "key": "S-01"
+            }
+        ],
+        "03": [
+            {
+                "reach": 0,
+                "formula": "f(RUR’U’)f’U’F(RUR’U’)F’"
+            }
+        ],
+        "04": [
+            {
+                "reach": 0,
+                "formula": "f(RUR’U’)f’UF(RUR’U’)F’"
+            }
+        ],
+        "05": [
+            {
+                "reach": 0,
+                "formula": "(r’U2)(RUR’U)r"
+            }
+        ],
+        "06": [
+            {
+                "reach": 0,
+                "formula": "(rU’U’)(R’U’RU’r’)"
             },
-        },
-        "06": {
-            "00": {
-                "formula": "(rU’U’)(R’U’RU’r’)",
-            },
-            "44": {
+            {
+                "reach": 44,
                 "key": "S-01",
-                "suffix": "U",
+                "suffix": "U"
             },
-            "40": {
-                "key": "S-01",
-                "prefix": "U",
-                "suffix": "U",
-            },
-            "52": {
-                "key": "S-01",
-                "prefix": "U'",
-                "suffix": "U",
-            },
-            "09": {
-                "key": "S-01",
-                "prefix": "U2",
-                "suffix": "U",
-            },
-        },
-        "07": {
-            "00": {
-                "formula": "(rUR’U)(RU’U’r’)",
-            },
-            "52": {
-                "key": "S-01",
-                "suffix": "U'",
-            },
-            "11": {
-                "key": "S-01",
-                "prefix": "U",
-                "suffix": "U",
-            },
-            "44": {
-                "key": "S-01",
-                "prefix": "U'",
-                "suffix": "U'",
-            },
-            "39": {
-                "key": "S-01",
-                "prefix": "U2",
-                "suffix": "U'",
-            },
-        },
-        "10": {
-            "38": {
-                "key": "S-01",
-                "suffix": "U",
-            },
-        },
-        "11": {
-            "00": {
-                "formula": "(r’F’U’F)(rU’r’U’r)",
-            },
-            "51": {
-                "key": "S-01",
-                "suffix": "U'",
-            },
-        },
-        "12": {
-            "50": {
-                "key": "S-01",
-                "suffix": "U",
-            },
-        },
-        "14": {
-            "25": {
-                "key": "S-01",
-                "suffix": "",
-            },
-        },
-        "18": {
-            "00": {
-                "formula": "(rUR’U)(RU’U’r’)(r’U’RU’)(R’U2r)",
-            },
-            "10": {
-                "key": "S-01",
-                "suffix": "U",
-            },
-            "28": {
+            {
+                "reach": 40,
                 "key": "S-01",
                 "prefix": "U",
-                "suffix": "U2",
+                "suffix": "U"
             },
-            "48": {
+            {
+                "reach": 52,
                 "key": "S-01",
                 "prefix": "U'",
-                "suffix": "U2",
+                "suffix": "U"
             },
-            "08": {
+            {
+                "reach": 9,
                 "key": "S-01",
                 "prefix": "U2",
-                "suffix": "U",
+                "suffix": "U"
+            }
+        ],
+        "07": [
+            {
+                "reach": 0,
+                "formula": "(rUR’U)(RU’U’r’)"
             },
-        },
-        "19": {
-           "00": {
-               "formula": "(r’RU)(RUR’U’r)(R’2FRF’)",
-           },
-        },
-        "22": {
-            "00": {
-                "formula": "(rUR’U)(RU’U’r’)(r’U’RU’)(R’U2r)",
-            },
-            "42": {
+            {
+                "reach": 52,
                 "key": "S-01",
-                "suffix": "U'",
+                "suffix": "U'"
             },
-        },
-        "23": {
-            "00": {
-                "formula": "(R2D’)(RU’U’R’D)(RU’U’R)",
-            },
-            "12": {
-                "key": "S-01",
-                "suffix": "U",
-            },
-            "50": {
+            {
+                "reach": 11,
                 "key": "S-01",
                 "prefix": "U",
-                "suffix": "U2",
+                "suffix": "U"
             },
-            "28": {
+            {
+                "reach": 44,
                 "key": "S-01",
                 "prefix": "U'",
+                "suffix": "U'"
             },
-            "05": {
+            {
+                "reach": 39,
                 "key": "S-01",
                 "prefix": "U2",
-                "suffix": "U2",
-            },
-        },
-        "25": {
-            "00": {
-                "formula": "F’(rUR’U’)(r’FR)",
-            },
-            "31": {
+                "suffix": "U'"
+            }
+        ],
+        "10": [
+            {
+                "reach": 38,
                 "key": "S-01",
-                "suffix": "U'",
+                "suffix": "U"
+            }
+        ],
+        "11": [
+            {
+                "reach": 0,
+                "formula": "(r’F’U’F)(rU’r’U’r)"
             },
-        },
-        "26": {
-            "43": {
+            {
+                "reach": 51,
                 "key": "S-01",
-                "suffix": "U'",
-            },
-        },
-        "28": {
-            "00": "F28",
-            "57": "F57",
-        },
-        "31": {
-            "00": {
-                "formula": "(r’F’UF)(rU’r’U’r)",
-            },
-            "54": {
+                "suffix": "U'"
+            }
+        ],
+        "12": [
+            {
+                "reach": 50,
                 "key": "S-01",
-                "suffix": "U",
-            },
-        },
-        "38": {
-            "14": {
+                "suffix": "U"
+            }
+        ],
+        "14": [
+            {
+                "reach": 25,
                 "key": "S-01",
-                "suffix": "UU",
+                "suffix": ""
+            }
+        ],
+        "18": [
+            {
+                "reach": 0,
+                "formula": "(rUR’U)(RU’U’r’)(r’U’RU’)(R’U2r)"
             },
-        },
-        "39": {
-            "00": {
-                "formula": "(RUR’F’U’F)U(RU2R’)",
-            },
-            "23": {
+            {
+                "reach": 10,
                 "key": "S-01",
-                "suffix": "U2",
+                "suffix": "U"
             },
-        },
-        "40": {
-            "00": {
-                "formula": "(R’F)(RUR’U’)F’(UR)",
-            },
-            "23": {
+            {
+                "reach": 28,
                 "key": "S-01",
+                "prefix": "U",
+                "suffix": "U2"
             },
-        },
-        "42": {
-            "00": {
-                "formula": "(R’U’RU’)(R’U2R)F(RUR’U’)F’",
-            },
-        },
-        "43": {
-            "00": {
-                "formula": "(B’U’)(R’URB)",
-            },
-            "49": {
+            {
+                "reach": 48,
                 "key": "S-01",
+                "prefix": "U'",
+                "suffix": "U2"
             },
-        },
-        "44": {
-            "00": {
-                "formula": "f(RUR’U’)f’",
+            {
+                "reach": 8,
+                "key": "S-01",
+                "prefix": "U2",
+                "suffix": "U"
+            }
+        ],
+        "19": [
+            {
+                "reach": 0,
+                "formula": "(r’RU)(RUR’U’r)(R’2FRF’)"
+            }
+        ],
+        "22": [
+            {
+                "reach": 0,
+                "formula": "(rUR’U)(RU’U’r’)(r’U’RU’)(R’U2r)"
             },
-            "06": {
+            {
+                "reach": 42,
+                "key": "S-01",
+                "suffix": "U'"
+            }
+        ],
+        "23": [
+            {
+                "reach": 0,
+                "formula": "(R2D’)(RU’U’R’D)(RU’U’R)"
+            },
+            {
+                "reach": 12,
+                "key": "S-01",
+                "suffix": "U"
+            },
+            {
+                "reach": 50,
+                "key": "S-01",
+                "prefix": "U",
+                "suffix": "U2"
+            },
+            {
+                "reach": 28,
+                "key": "S-01",
+                "prefix": "U'"
+            },
+            {
+                "reach": 5,
+                "key": "S-01",
+                "prefix": "U2",
+                "suffix": "U2"
+            }
+        ],
+        "25": [
+            {
+                "reach": 0,
+                "formula": "F’(rUR’U’)(r’FR)"
+            },
+            {
+                "reach": 31,
+                "key": "S-01",
+                "suffix": "U'"
+            }
+        ],
+        "26": [
+            {
+                "reach": 43,
+                "key": "S-01",
+                "suffix": "U'"
+            }
+        ],
+        "28": [
+            {
+                "reach": 0,
+                "key": "F28"
+            },
+            {
+                "reach": 57,
+                "key": "F57"
+            }
+        ],
+        "31": [
+            {
+                "reach": 0,
+                "formula": "(r’F’UF)(rU’r’U’r)"
+            },
+            {
+                "reach": 54,
+                "key": "S-01",
+                "suffix": "U"
+            }
+        ],
+        "38": [
+            {
+                "reach": 14,
+                "key": "S-01",
+                "suffix": "UU"
+            }
+        ],
+        "39": [
+            {
+                "reach": 0,
+                "formula": "(RUR’F’U’F)U(RU2R’)"
+            },
+            {
+                "reach": 23,
+                "key": "S-01",
+                "suffix": "U2"
+            }
+        ],
+        "40": [
+            {
+                "reach": 0,
+                "formula": "(R’F)(RUR’U’)F’(UR)"
+            },
+            {
+                "reach": 23,
+                "key": "S-01"
+            }
+        ],
+        "42": [
+            {
+                "reach": 0,
+                "formula": "(R’U’RU’)(R’U2R)F(RUR’U’)F’"
+            }
+        ],
+        "43": [
+            {
+                "reach": 0,
+                "formula": "(B’U’)(R’URB)"
+            },
+            {
+                "reach": 49,
+                "key": "S-01"
+            }
+        ],
+        "44": [
+            {
+                "reach": 0,
+                "formula": "f(RUR’U’)f’"
+            },
+            {
+                "reach": 6,
                 "@comment": "U 后使用简单公式 S-01 ",
                 "key": "S-01",
                 "prefix": "U",
-                "suffix": "UU",
+                "suffix": "UU"
             },
-            "07": {
+            {
+                "reach": 7,
                 "@comment": "U' 后使用简单公式 S-01 ",
                 "key": "S-01",
                 "prefix": "U'",
-                "suffix": "U'",
+                "suffix": "U'"
             },
-            "51": {
+            {
+                "reach": 51,
                 "@comment": "UU 后使用简单公式 S-01 ",
                 "key": "S-01",
                 "prefix": "UU",
-                "suffix": "UU",
+                "suffix": "UU"
             },
-            "57": {
+            {
+                "reach": 57,
                 "@comment": "使用简单公式 S-01 ",
                 "key": "S-01",
-                "suffix": "U",
+                "suffix": "U"
             }
-        },
-        "46": {
-            "02": {
+        ],
+        "46": [
+            {
+                "reach": 2,
                 "key": "S-01",
-                "suffix": "UU",
-            },
-        },
-        "47": {
-            "53": {
+                "suffix": "UU"
+            }
+        ],
+        "47": [
+            {
+                "reach": 53,
                 "key": "S-01",
-                "suffix": "UU",
-            },
-        },
-        "49": {
-            "53": {
+                "suffix": "UU"
+            }
+        ],
+        "49": [
+            {
+                "reach": 53,
+                "key": "S-01"
+            }
+        ],
+        "50": [
+            {
+                "reach": 46,
                 "key": "S-01",
+                "suffix": "UU"
+            }
+        ],
+        "51": [
+            {
+                "reach": 0,
+                "formula": "f(RUR’U’)2f’"
             },
-        },
-        "50": {
-            "46": {
+            {
+                "reach": 23,
                 "key": "S-01",
-                "suffix": "UU",
+                "suffix": "U"
             },
-        },
-        "51": {
-            "00": {
-                "formula": "f(RUR’U’)2f’",
-            },
-            "23": {
-                "key": "S-01",
-                "suffix": "U",
-            },
-            "04": {
+            {
+                "reach": 4,
                 "key": "S-01",
                 "prefix": "U",
-                "suffix": "U'",
+                "suffix": "U'"
             },
-            "03": {
+            {
+                "reach": 3,
                 "key": "S-01",
                 "prefix": "U'",
-                "suffix": "U",
-            },
-        },
-        "52": {
-            "18": {
+                "suffix": "U"
+            }
+        ],
+        "52": [
+            {
+                "reach": 18,
                 "key": "S-01",
-                "suffix": "U'",
-            },
-        },
-        "53": {
-            "47": {
+                "suffix": "U'"
+            }
+        ],
+        "53": [
+            {
+                "reach": 47,
                 "key": "S-01",
-                "suffix": "U'U'",
+                "suffix": "U'U'"
+            }
+        ],
+        "54": [
+            {
+                "reach": 0,
+                "formula": "(rU’U’)(R’U’RU)(R’U’RU’r’)"
             },
-        },
-        "54": {
-            "00": {
-                "formula": "(rU’U’)(R’U’RU)(R’U’RU’r’)",
+            {
+                "reach": 51,
+                "key": "S-01"
+            }
+        ],
+        "55": [
+            {
+                "reach": 0,
+                "formula": "(rU’U’R’U’)(r’R2UR’U’)(rU’r’)"
             },
-            "51": {
+            {
+                "reach": 22,
+                "key": "S-01"
+            }
+        ],
+        "57": [
+            {
+                "reach": 0,
+                "key": "F57"
+            },
+            {
+                "reach": 28,
+                "key": "F28"
+            },
+            {
+                "reach": 23,
                 "key": "S-01",
+                "suffix": "U'"
             },
-        },
-        "55": {
-            "00": {
-                "formula": "(rU’U’R’U’)(r’R2UR’U’)(rU’r’)",
-            },
-            "22": "S-01",
-        },
-        "57": {
-            "00": "F57",
-            
-            "28": "F28",
-            "23": {
-                "key": "S-01",
-                "suffix": "U'",
-            },
-            "18": {
+            {
+                "reach": 18,
                 "key": "S-01",
                 "prefix": "U",
-                "suffix": "U",
-            },
-        }
+                "suffix": "U"
+            }
+        ]
     }
 }

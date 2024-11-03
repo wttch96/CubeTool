@@ -8,33 +8,30 @@
 import Foundation
 
 /// 公式的定义
-struct CubeFormula: Decodable, Equatable {
+struct CubeFormula: Decodable, Equatable, Hashable {
+    /// 公式到达的状态
+    let reach: Int
+    /// 公式的 key
     let key: String?
     /// 公式的前缀
     let prefix: String?
     /// 公式的附加值
     let suffix: String?
-
+    /// 公式的字符串
     let formula: String?
-    
-    let sort: Int
 
-    enum CodingKeys: CodingKey {
-        case key
-        case formula
-        case prefix
-        case suffix
-        case sort
-    }
+    let comment: String?
 
     init(from decoder: any Decoder) throws {
         var append: String? = nil
         var prefix: String? = nil
         var formula: String? = nil
         var key: String? = nil
-        var sort = 0
+        var reach = 0
+        var comment: String? = nil
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
+            reach = try container.decodeIfPresent(Int.self, forKey: .reach) ?? 0
             // 尝试 formula
             try formula = container.decodeIfPresent(String.self, forKey: .formula)
             // 结束
@@ -42,8 +39,8 @@ struct CubeFormula: Decodable, Equatable {
                 key = try container.decodeIfPresent(String.self, forKey: .key)
                 prefix = try container.decodeIfPresent(String.self, forKey: .prefix)
                 append = try container.decodeIfPresent(String.self, forKey: .suffix)
-                sort = try container.decodeIfPresent(Int.self, forKey: .sort) ?? 0
             }
+            comment = try container.decodeIfPresent(String.self, forKey: .comment)
         } catch {
             let container = try decoder.singleValueContainer()
             key = try container.decode(String.self)
@@ -54,32 +51,30 @@ struct CubeFormula: Decodable, Equatable {
         self.suffix = append
         self.prefix = prefix
         self.formula = formula
-        self.sort = sort
+        self.reach = reach
+        self.comment = comment
     }
 
-    enum FormulaType: String, Decodable {
+    enum CodingKeys: CodingKey {
+        case reach
+
         case key
-        case origin
-    }
-}
+        case prefix
+        case suffix
 
-extension CubeFormula: Comparable {
-    static func < (lhs: CubeFormula, rhs: CubeFormula) -> Bool {
-        return lhs.sort < rhs.sort
+        case formula
+
+        case comment
     }
 }
 
 struct CubeTransition: Decodable {
     let formula: [String: String]
-
-    let formulaPair: [String: String]
-
-    let transition: [String: [String: CubeFormula]]
+    let transition: [String: [CubeFormula]]
 
     init() {
         self.formula = [:]
         self.transition = [:]
-        self.formulaPair = [:]
     }
 }
 
@@ -90,9 +85,9 @@ extension CubeTransition {
             return formula
         }
         if let key = cubeFormula.key {
-            return self.formula[key] ?? ""
+            return formula[key] ?? ""
         }
-        
+
         return ""
     }
 
@@ -120,24 +115,24 @@ extension CubeTransition {
 
     /// 获取哪个状态通过 formulaKey 公式可以转变为 state 状态
     func origin(_ formulaKey: CubeFormula, _ state: String) -> String? {
-        for (from, toTransition) in transition {
-            for (to, key) in toTransition {
-                if formulaKey == key, to == state {
-                    return from
-                }
-            }
-        }
+//        for (from, toTransition) in transition {
+//            for (to, key) in toTransition {
+//                if formulaKey == key, to == state {
+//                    return from
+//                }
+//            }
+//        }
         return nil
     }
 
     /// 获取哪个状态通过 formulaKey 公式可以转变为 currentState 状态
-    func statesLeadingTo(currentState: String) -> [String: CubeFormula] {
+    func statesLeadingTo(currentState: Int) -> [String: CubeFormula] {
         var result: [String: CubeFormula] = [:]
 
-        for (from, toTransition) in transition {
-            for (to, key) in toTransition {
-                if to == currentState {
-                    result[from] = key
+        for (from, toTransitions) in transition {
+            for transition in toTransitions {
+                if transition.reach == currentState {
+                    result[from] = transition
                 }
             }
         }

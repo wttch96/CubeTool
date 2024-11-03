@@ -34,8 +34,7 @@ struct CubeView: NSViewRepresentable {
         let cubeData = Cube(stickerType: .y2Gray)
         
         addAxis(scene)
-        // scene.background.contents = NSColor.black
-        
+        scnView.backgroundColor = .clear
         scene.rootNode.addChildNode(cubeNode)
         
         // 创建摄像机节点
@@ -71,43 +70,43 @@ struct CubeView: NSViewRepresentable {
     func handleKeyDown(with event: NSEvent) {
         let cube = cubeNode
         let isShiftPressed = event.modifierFlags.contains(.shift)
-        let isOptionPressed = event.modifierFlags.contains(.command)
+        let isCommandPressed = event.modifierFlags.contains(.command)
         switch event.keyCode {
         case 16:
             if isShiftPressed {
-                cube.operate(.F(reverse: isOptionPressed))
+                cube.operate(.F(reverse: isCommandPressed))
             } else {
-                cube.operate(.f(reverse: isOptionPressed))
+                cube.operate(.f(reverse: isCommandPressed))
             }
         case 31:
             if isShiftPressed {
-                cube.operate(.R(reverse: isOptionPressed))
+                cube.operate(.R(reverse: isCommandPressed))
             } else {
-                cube.operate(.r(reverse: isOptionPressed))
+                cube.operate(.r(reverse: isCommandPressed))
             }
         case 35:
             if isShiftPressed {
-                cube.operate(.L(reverse: isOptionPressed))
+                cube.operate(.L(reverse: isCommandPressed))
             } else {
-                cube.operate(.l(reverse: isOptionPressed))
+                cube.operate(.l(reverse: isCommandPressed))
             }
         case 45:
             if isShiftPressed {
-                cube.operate(.B(reverse: isOptionPressed))
+                cube.operate(.B(reverse: isCommandPressed))
             } else {
-                cube.operate(.b(reverse: isOptionPressed))
+                cube.operate(.b(reverse: isCommandPressed))
             }
         case 3:
             if isShiftPressed {
-                cube.operate(.U(reverse: isOptionPressed))
+                cube.operate(.U(reverse: isCommandPressed))
             } else {
-                cube.operate(.u(reverse: isOptionPressed))
+                cube.operate(.u(reverse: isCommandPressed))
             }
         case 4:
             if isShiftPressed {
-                cube.operate(.D(reverse: isOptionPressed))
+                cube.operate(.D(reverse: isCommandPressed))
             } else {
-                cube.operate(.d(reverse: isOptionPressed))
+                cube.operate(.d(reverse: isCommandPressed))
             }
         case 46:
             cube.operate(.M(reverse: isShiftPressed))
@@ -131,18 +130,18 @@ extension CubeView {
     private func addAxis(_ scene: SCNScene) {
         // 创建X轴 (红色)
         let xAxis = SCNNode(geometry: SCNCylinder(radius: 0.5, height: 200))
-        xAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.red
+        xAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.systemRed
         xAxis.position = SCNVector3(2.5, 0, 0)
         xAxis.eulerAngles = SCNVector3(0, 0, Float.pi / 2) // 旋转到X轴方向
         
         // 创建Y轴 (绿色)
         let yAxis = SCNNode(geometry: SCNCylinder(radius: 0.5, height: 200))
-        yAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.green
+        yAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.systemGreen
         yAxis.position = SCNVector3(0, 2.5, 0)
         
         // 创建Z轴 (蓝色)
         let zAxis = SCNNode(geometry: SCNCylinder(radius: 0.5, height: 200))
-        zAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.blue
+        zAxis.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
         zAxis.position = SCNVector3(0, 0, 2.5)
         zAxis.eulerAngles = SCNVector3(Float.pi / 2, 0, 0) // 旋转到Z轴方向
         // 将轴添加到场景中

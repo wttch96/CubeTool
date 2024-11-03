@@ -1,278 +1,473 @@
 {
-    "formula": {
-        "F01": "(RU'R'U)y'(R'U2RU'U')(R'UR)y",
-        "F04": "(RUR'U')(RU2R'U')(RUR')",
-        "F05": "(RF)U(RU'R'F')(U'R')",
-        "F08": "(RU'R'U)(RU'U'R'U)(RU'R')",
-        "F09": "(RU)F(RUR'U')F'R'",
-
-        "@commit": "下面都是简单公式",
-        "S-01": "(RU'R')",
-        "S-02": "y'(R'UR)y",
-        "S-03": "RUR'U'",
-        "S-04": "F'U'FU",
-        "S-05": "RUR'y'UR'U'Ry",
-        "S-06": "F'U'FUURU'R'",
-        "S-07": "RUR'UF'UUF",
-    },
-    "formulaPair": {
-        "F04": "F08",
-        "F05": "F09",
-    },
-    "transition": {
-        "00": {
-            "01": "F01",
-            "04": "F08",
-            "05": "F09",
-            "08": "F04",
-            "09": "F05",
-
-            "40": "S-01",
-            "25": "S-02",
-            "31": "S-03",
-            "34": "S-04",
-            "13": "S-05",
-            "10": "S-06",
-            "07": "S-07",
-        },
-        "01": {
-            "00": "F01",
-            "04": "F09",
-            "08": "F05",
-
-            "36": "S-01",
-            "29": "S-02",
-            "27": "S-03",
-            "38": "S-04",
-            "12": "S-05",
-        },
-        "02": {
-            "00": {
-                "formula": "(URU'R'U')y'(R'UR)y",
-            }
-        },
-        "03": {
-            "00": {
-                "formula": "(R’F’RU)(RU’R’F)",
-            },
-        },
-        "04": {
-            "00": "F04",
-            "01": "F05",
-            "08": "F08",
-            "09": "F09",
-
-            "30": "S-01",
-            "15": "S-02",
-            "21": "S-03",
-            "24": "S-04",
-            "33": "S-05",
-            "02": "S-06",
-            "11": "S-07",
-        },
-        "05": {
-            "00": "F05",
-            "08": "F09",
-
-            "26": "S-01",
-            "19": "S-02",
-            "17": "S-03",
-            "28": "S-04",
-            "32": "S-05",
-        },
-        "06": {
-            "00": {
-                "formula": "y'(R’U’RU)(R’U’R)y",
-            },
-        },
-        "07": {
-            "00": {
-                "formula": "(RU’R’U)(RU’R’)",
-            },
-        },
-        "08": {
-            "00": "F08",
-            "01": "F09",
-            "04": "F04",
-            "05": "F05",
-
-            "20": "S-01",
-            "35": "S-02",
-            "41": "S-03",
-            "14": "S-04",
-            "23": "S-05",
-            "06": "S-06",
-            "03": "S-07",
-        },
-        "09": {
-            "00": "F09",
-            "04": "F05",
-
-            "16": "S-01",
-            "39": "S-02",
-            "37": "S-03",
-            "18": "S-04",
-            "22": "S-05",
-        },
-        "10": {
-            "00": {
-                "formula": "y'(R’URU’)(R’UR)y",
-            },
-        },
-        "11": {
-            "00": {
-                "formula": "(RUR’U’)(RUR’)",
-            },
-        },
-        "12": {
-            "00": {
-                "formula": "(RUR'U')2(RUR')",
-            },
-        },
-        "13": {
-            "00": {
-                "formula": "(RU'R'U)y'(R'UR)y",
-            },
-        },
-        "14": {
-            "00": {
-                "formula": "y'(R’U2)(RUR’U’R)y",
-            },
-        },
-        "15": {
-            "00": {
-                "formula": "y'U'(R'U2)(RU'R'UR)y",
-            },
-        },
-        "16": {
-            "00": {
-                "formula": "y'(R'URU'U')(R'U'R)",
-            }
-        },
-        "17": {
-            "00": {
-                "formula": "FU(RU’R’F’)(RU’R’)",
-            },
-        },
-        "18": {
-            "00": {
-                "formula": "U(RU'R'U')(RU'R'U)(RU'R')",
-            },
-        },
-        "19": {
-            "00": {
-                "formula": "(RU’R’U2)(RUR’)",
-            },
-        },
-        "20": {
-            "00": {
-                "formula": "U(RU'U')(R'URU'R')",
-            },
-        },
-        "21": {
-            "00": {
-                "formula": "(RU'U')(R'U'RUR')",
-            },
-        },
-        "22": {
-            "00": {
-                "formula": "U’(RU’R’U2)(RU’R’)",
-            },
-        },
-        "23": {
-            "00": {
-                "formula": "U’(RUR’)y'(UR’U’R)",
-            },
-        },
-        "24": {
-            "00": {
-                "formula": "y'U(R'URU')(R'U'R)y",
-            },
-        },
-        "25": {
-            "00": {
-                "formula": "y'(R'U'R)y",
-            },
-        },
-        "26": {
-            "00": {
-                "formula": "y’U(R’U’RU’)(R’U’R)y",
-            },
-        },
-        "27": {
-            "00": {
-                "formula": "y'(RU'U')(R'2U')(R2U'R')",
-            },
-        },
-        "28": {
-            "00": {
-                "formula": "(lU)(rU’r’U’)l’",
-            },
-        },
-        "29": {
-            "00": {
-                "formula": "U'(RU'U')(R'U2)(RU'R')",
-            },
-        },
-        "30": {
-            "00": {
-                "formula": "U'(RUR'U')(RU'U'R')",
-            },
-        },
-        "31": {
-            "00": {
-                "formula": "URU'R'",
-            },
-        },
-        "32": {
-            "00": {
-                "formula": "U’(RU’U’R’U)(RUR’)",
-            },
-        },
-        "33": {
-            "00": {
-                "formula": "y’U(R’U’R)d’(RUR’)",
-            },
-        },
-        "34": {
-            "00": {
-                "formula": "y'U'(R'UR)y",
-            },
-        },
-        "35": {
-            "00": {
-                "formula": "y'U(R'U'RU'U')(R'UR)y",
-            },
-        },
-        "36": {
-            "00": {
-                "formula": "y'U(R'U2RU'U')(R'UR)y",
-            },
-        },
-        "37": {
-            "00": {
-                "formula": "(RU'R'U2)y'(R'U'R)y",
-            },
-        },
-        "38": {
-            "00": {
-                "formula": "(RU'R'U)(RU'R'U2)(RU'R')",
-            },
-        },
-        "39": {
-            "00": {
-                "formula": "U'(RUR'U)(RUR')",
-            },
-        },
-        "40": {
-            "00": {
-                "formula": "(RUR')",
-            },
-        },
-        "41": {
-            "00": {
-                "formula": "U'(RU’R’U)(RUR’)",
-            },
-        },
-    }
+  "formula": {
+    "F01": "(RU'R'U)y'(R'U2RU'U')(R'UR)y",
+    "F04": "(RUR'U')(RU2R'U')(RUR')",
+    "F05": "(RF)U(RU'R'F')(U'R')",
+    "F08": "(RU'R'U)(RU'U'R'U)(RU'R')",
+    "F09": "(RU)F(RUR'U')F'R'",
+    "@commit": "下面都是简单公式",
+    "S-01": "(RU'R')",
+    "S-02": "y'(R'UR)y",
+    "S-03": "RUR'U'",
+    "S-04": "F'U'FU",
+    "S-05": "RUR'y'UR'U'Ry",
+    "S-06": "F'U'FUURU'R'",
+    "S-07": "RUR'UF'UUF"
+  },
+  "transition": {
+    "00": [
+      {
+        "reach": 1,
+        "key": "F01"
+      },
+      {
+        "reach": 4,
+        "key": "F08"
+      },
+      {
+        "reach": 5,
+        "key": "F09"
+      },
+      {
+        "reach": 8,
+        "key": "F04"
+      },
+      {
+        "reach": 9,
+        "key": "F05"
+      },
+      {
+        "reach": 40,
+        "key": "S-01"
+      },
+      {
+        "reach": 25,
+        "key": "S-02"
+      },
+      {
+        "reach": 31,
+        "key": "S-03"
+      },
+      {
+        "reach": 34,
+        "key": "S-04"
+      },
+      {
+        "reach": 13,
+        "key": "S-05"
+      },
+      {
+        "reach": 10,
+        "key": "S-06"
+      },
+      {
+        "reach": 7,
+        "key": "S-07"
+      }
+    ],
+    "01": [
+      {
+        "reach": 0,
+        "key": "F01"
+      },
+      {
+        "reach": 4,
+        "key": "F09"
+      },
+      {
+        "reach": 8,
+        "key": "F05"
+      },
+      {
+        "reach": 36,
+        "key": "S-01"
+      },
+      {
+        "reach": 29,
+        "key": "S-02"
+      },
+      {
+        "reach": 27,
+        "key": "S-03"
+      },
+      {
+        "reach": 38,
+        "key": "S-04"
+      },
+      {
+        "reach": 12,
+        "key": "S-05"
+      }
+    ],
+    "02": [
+      {
+        "reach": 0,
+        "formula": "(URU'R'U')y'(R'UR)y"
+      }
+    ],
+    "03": [
+      {
+        "reach": 0,
+        "formula": "(R’F’RU)(RU’R’F)"
+      }
+    ],
+    "04": [
+      {
+        "reach": 0,
+        "key": "F04"
+      },
+      {
+        "reach": 1,
+        "key": "F05"
+      },
+      {
+        "reach": 8,
+        "key": "F08"
+      },
+      {
+        "reach": 9,
+        "key": "F09"
+      },
+      {
+        "reach": 30,
+        "key": "S-01"
+      },
+      {
+        "reach": 15,
+        "key": "S-02"
+      },
+      {
+        "reach": 21,
+        "key": "S-03"
+      },
+      {
+        "reach": 24,
+        "key": "S-04"
+      },
+      {
+        "reach": 33,
+        "key": "S-05"
+      },
+      {
+        "reach": 2,
+        "key": "S-06"
+      },
+      {
+        "reach": 11,
+        "key": "S-07"
+      }
+    ],
+    "05": [
+      {
+        "reach": 0,
+        "key": "F05"
+      },
+      {
+        "reach": 8,
+        "key": "F09"
+      },
+      {
+        "reach": 26,
+        "key": "S-01"
+      },
+      {
+        "reach": 19,
+        "key": "S-02"
+      },
+      {
+        "reach": 17,
+        "key": "S-03"
+      },
+      {
+        "reach": 28,
+        "key": "S-04"
+      },
+      {
+        "reach": 32,
+        "key": "S-05"
+      }
+    ],
+    "06": [
+      {
+        "reach": 0,
+        "formula": "y'(R’U’RU)(R’U’R)y"
+      }
+    ],
+    "07": [
+      {
+        "reach": 0,
+        "formula": "(RU’R’U)(RU’R’)"
+      }
+    ],
+    "08": [
+      {
+        "reach": 0,
+        "key": "F08"
+      },
+      {
+        "reach": 1,
+        "key": "F09"
+      },
+      {
+        "reach": 4,
+        "key": "F04"
+      },
+      {
+        "reach": 5,
+        "key": "F05"
+      },
+      {
+        "reach": 20,
+        "key": "S-01"
+      },
+      {
+        "reach": 35,
+        "key": "S-02"
+      },
+      {
+        "reach": 41,
+        "key": "S-03"
+      },
+      {
+        "reach": 14,
+        "key": "S-04"
+      },
+      {
+        "reach": 23,
+        "key": "S-05"
+      },
+      {
+        "reach": 6,
+        "key": "S-06"
+      },
+      {
+        "reach": 3,
+        "key": "S-07"
+      }
+    ],
+    "09": [
+      {
+        "reach": 0,
+        "key": "F09"
+      },
+      {
+        "reach": 4,
+        "key": "F05"
+      },
+      {
+        "reach": 16,
+        "key": "S-01"
+      },
+      {
+        "reach": 39,
+        "key": "S-02"
+      },
+      {
+        "reach": 37,
+        "key": "S-03"
+      },
+      {
+        "reach": 18,
+        "key": "S-04"
+      },
+      {
+        "reach": 22,
+        "key": "S-05"
+      }
+    ],
+    "10": [
+      {
+        "reach": 0,
+        "formula": "y'(R’URU’)(R’UR)y"
+      }
+    ],
+    "11": [
+      {
+        "reach": 0,
+        "formula": "(RUR’U’)(RUR’)"
+      }
+    ],
+    "12": [
+      {
+        "reach": 0,
+        "formula": "(RUR'U')2(RUR')"
+      }
+    ],
+    "13": [
+      {
+        "reach": 0,
+        "formula": "(RU'R'U)y'(R'UR)y"
+      }
+    ],
+    "14": [
+      {
+        "reach": 0,
+        "formula": "y'(R’U2)(RUR’U’R)y",
+        "comment": "y'(R'U2)R 为了转换为 [25]"
+      }
+    ],
+    "15": [
+      {
+        "reach": 0,
+        "formula": "y'U'(R'U2)(RU'R'UR)y",
+        "comment": "块合并:y'U'(R'U2)"
+      }
+    ],
+    "16": [
+      {
+        "reach": 0,
+        "formula": "y'(R'URU'U')(R'U'R)"
+      }
+    ],
+    "17": [
+      {
+        "reach": 0,
+        "formula": "FU(RU’R’F’)(RU’R’)"
+      }
+    ],
+    "18": [
+      {
+        "reach": 0,
+        "formula": "U(RU'R'U')(RU'R'U)(RU'R')"
+      }
+    ],
+    "19": [
+      {
+        "reach": 0,
+        "formula": "(RU’R’U2)(RUR’)"
+      }
+    ],
+    "20": [
+      {
+        "reach": 0,
+        "formula": "U(RU'U')(R'URU'R')"
+      }
+    ],
+    "21": [
+      {
+        "reach": 0,
+        "formula": "(RU'U')(R'U'RUR')"
+      }
+    ],
+    "22": [
+      {
+        "reach": 0,
+        "formula": "U’(RU’R’U2)(RU’R’)"
+      }
+    ],
+    "23": [
+      {
+        "reach": 0,
+        "formula": "U’(RUR’)y'(UR’U’R)"
+      }
+    ],
+    "24": [
+      {
+        "reach": 0,
+        "formula": "y'U(R'URU')(R'U'R)y"
+      }
+    ],
+    "25": [
+      {
+        "reach": 0,
+        "formula": "y'(R'U'R)y"
+      }
+    ],
+    "26": [
+      {
+        "reach": 0,
+        "formula": "y’U(R’U’RU’)(R’U’R)y"
+      }
+    ],
+    "27": [
+      {
+        "reach": 0,
+        "formula": "y'(RU'U')(R'2U')(R2U'R')"
+      }
+    ],
+    "28": [
+      {
+        "reach": 0,
+        "formula": "(lU)(rU’r’U’)l’"
+      }
+    ],
+    "29": [
+      {
+        "reach": 0,
+        "formula": "U'(RU'U')(R'U2)(RU'R')"
+      }
+    ],
+    "30": [
+      {
+        "reach": 0,
+        "formula": "U'(RUR'U')(RU'U'R')"
+      }
+    ],
+    "31": [
+      {
+        "reach": 0,
+        "formula": "URU'R'"
+      }
+    ],
+    "32": [
+      {
+        "reach": 0,
+        "formula": "U’(RU’U’R’U)(RUR’)"
+      }
+    ],
+    "33": [
+      {
+        "reach": 0,
+        "formula": "y’U(R’U’R)d’(RUR’)"
+      }
+    ],
+    "34": [
+      {
+        "reach": 0,
+        "formula": "y'U'(R'UR)y"
+      }
+    ],
+    "35": [
+      {
+        "reach": 0,
+        "formula": "y'U(R'U'RU'U')(R'UR)y"
+      }
+    ],
+    "36": [
+      {
+        "reach": 0,
+        "formula": "y'U(R'U2RU'U')(R'UR)y"
+      }
+    ],
+    "37": [
+      {
+        "reach": 0,
+        "formula": "(RU'R'U2)y'(R'U'R)y"
+      }
+    ],
+    "38": [
+      {
+        "reach": 0,
+        "formula": "(RU'R'U)(RU'R'U2)(RU'R')"
+      }
+    ],
+    "39": [
+      {
+        "reach": 0,
+        "formula": "U'(RUR'U)(RUR')"
+      }
+    ],
+    "40": [
+      {
+        "reach": 0,
+        "formula": "(RUR')"
+      }
+    ],
+    "41": [
+      {
+        "reach": 0,
+        "formula": "U'(RU’R’U)(RUR’)"
+      }
+    ]
+  }
 }
