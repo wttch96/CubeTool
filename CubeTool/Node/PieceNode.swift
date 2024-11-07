@@ -8,7 +8,6 @@
 import Foundation
 import SceneKit
 
-
 class PieceNode: SCNNode {
     let padding = 2.0
     
@@ -57,7 +56,38 @@ class PieceNode: SCNNode {
             }
         }
     }
+}
+
+#if os(iOS)
+extension PieceNode {
+    private func createSticker(at position: Int, with sticker: StickerDefinition) {
+        let size = CGFloat(Constants.size)
+        let fSize = Float(size)
+        let stickerSize = size - padding
+        let cornerSize = stickerSize * 0.3
+        let path = UIBezierPath.init(roundedRect: CGRect(x: -stickerSize / 2, y: -stickerSize / 2, width: stickerSize, height: stickerSize), cornerRadius: 4)
+        let shape = SCNShape(path: path, extrusionDepth: 0.01)
+        let node = SCNNode(geometry: shape)
+        node.geometry?.firstMaterial?.diffuse.contents = sticker.color
+        node.position = SCNVector3(positions[position].x * fSize, positions[position].y * fSize, positions[position].z * fSize)
+        node.eulerAngles = rotates[position]
+        addChildNode(node)
+    }
     
+    private func createCenterBox() {
+        let size = CGFloat(Constants.size)
+        let centerBox = SCNBox(width: size, height: size, length: size, chamferRadius: 0)
+        centerBox.firstMaterial?.diffuse.contents = UIColor.black
+        let boxNode = SCNNode(geometry: centerBox)
+        addChildNode(boxNode)
+    }
+}
+
+#endif
+
+#if os(macOS)
+
+extension PieceNode {
     private func createSticker(at position: Int, with sticker: StickerDefinition) {
         let size = CGFloat(Constants.size)
         let stickerSize = size - padding
@@ -122,3 +152,4 @@ extension NSBezierPath {
         return path
     }
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Wttch on 2024/10/22.
 //
-import AppKit
+import CoreGraphics
 
 struct Pieces {
     let stickers: [StickerDefinition?]
@@ -13,12 +13,12 @@ struct Pieces {
         self.stickers = stickers
     }
 
-    static let f: NSColor = .blue
-    static let b: NSColor = .green
-    static let l: NSColor = .orange
-    static let r: NSColor = .red
-    static let u: NSColor = .yellow
-    static let d: NSColor = .white
+    static let f: CGColor = .init(red: 0.0, green: 0.5, blue: 1.0, alpha: 1.0)
+    static let b: CGColor = .init(red: 0.0, green: 1.0, blue: 0.5, alpha: 1.0)
+    static let l: CGColor = .init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+    static let r: CGColor = .init(red: 1.0, green: 0.0, blue: 0.5, alpha: 1.0)
+    static let u: CGColor = .init(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
+    static let d: CGColor = .init(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 
     static let fs: StickerDefinition = .init(f)
     static let bs: StickerDefinition = .init(b)
@@ -26,7 +26,7 @@ struct Pieces {
     static let rs: StickerDefinition = .init(r)
     static let us: StickerDefinition = .init(u)
     static let ds: StickerDefinition = .init(d)
-    static let gs: StickerDefinition = .init(.gray)
+    static let gs: StickerDefinition = .init(.init(gray: 0.8, alpha: 1))
 
     private static let x0y12: [[StickerDefinition?]] = [
         [nil, bs, ls, nil, nil, ds],
@@ -119,4 +119,17 @@ struct Pieces {
     static let y2Gray: [Self] = (
         x0y12 + x0y2Gray + x1y12 + x1y2Gray + x2y12 + x2y2Gray
     ).map(Self.init)
+}
+
+extension CubeStateType {
+    var pieces: [Pieces] {
+        switch self {
+        case .pll:
+            Pieces.all
+        case .f2l:
+            Pieces.y2Gray
+        case .oll:
+            Pieces.topWhite
+        }
+    }
 }

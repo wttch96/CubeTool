@@ -7,22 +7,13 @@
 
 import Foundation
 
-enum CubeStateType: String {
+enum CubeStateType: String, Codable, CaseIterable, Hashable, Identifiable {
     case f2l = "F2L"
     case oll = "OLL"
+    case pll = "PLL"
+    
+    var id: String { self.rawValue }
 }
-
-//
-// extension CubeStateType {
-//    var pieces: [Pieces] {
-//        switch self {
-//        case .f2l:
-//            return Pieces.y2Gray
-//        case .oll:
-//            return Pieces.topWhite
-//        }
-//    }
-// }
 
 struct CubeStateIndex: Equatable, Hashable {
     let type: CubeStateType
@@ -31,18 +22,6 @@ struct CubeStateIndex: Equatable, Hashable {
     init(type: CubeStateType, index: Int) {
         self.type = type
         self.index = index
-    }
-
-    var indexString: String {
-        String(format: "%02d", index)
-    }
-
-    var filename: String {
-        "\(type.rawValue)-\(String(format: "%02d", index))"
-    }
-
-    var imagename: String {
-        "\(type.rawValue)/\(String(format: "%02d", index))"
     }
 
     /// 更新索引

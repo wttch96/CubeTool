@@ -4,17 +4,17 @@
 //
 //  Created by Wttch on 2024/10/22.
 //
-import AppKit
+import CoreGraphics
 
 /// 贴图定义
 struct StickerDefinition {
-    let color: NSColor
+    let color: CGColor
     let topLeftCorner: Bool
     let topRightCorner: Bool
     let bottomLeftCorner: Bool
     let bottomRightCorner: Bool
     
-    init(_ color: NSColor, topLeftCorner: Bool = false, topRightCorner: Bool = false, bottomLeftCorner: Bool = false, bottomRightCorner: Bool = false) {
+    init(_ color: CGColor, topLeftCorner: Bool = false, topRightCorner: Bool = false, bottomLeftCorner: Bool = false, bottomRightCorner: Bool = false) {
         self.color = color
         self.topLeftCorner = topLeftCorner
         self.topRightCorner = topRightCorner

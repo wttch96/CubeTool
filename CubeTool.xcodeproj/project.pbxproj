@@ -7,16 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4905415C2CCE86A3004D38A4 /* SwiftLogMacro in Frameworks */ = {isa = PBXBuildFile; productRef = 4905415B2CCE86A3004D38A4 /* SwiftLogMacro */; };
+		49D9F7DE2CDB4C0A00F2DB50 /* SwiftLogMacro in Frameworks */ = {isa = PBXBuildFile; productRef = 49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		49661D082CC647FB00D141B0 /* CubeTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CubeTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		49078BDB2CD8B32E0017954D /* Exceptions for "CubeTool" folder in "CubeTool" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 49661D072CC647FB00D141B0 /* CubeTool */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		49661D0A2CC647FB00D141B0 /* CubeTool */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				49078BDB2CD8B32E0017954D /* Exceptions for "CubeTool" folder in "CubeTool" target */,
+			);
 			explicitFileTypes = {
 				"Resource/State/F2L/F2L-35.json" = text.json;
 			};
@@ -30,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4905415C2CCE86A3004D38A4 /* SwiftLogMacro in Frameworks */,
+				49D9F7DE2CDB4C0A00F2DB50 /* SwiftLogMacro in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				49661D0A2CC647FB00D141B0 /* CubeTool */,
+				49D9F7DC2CDB4C0A00F2DB50 /* Frameworks */,
 				49661D092CC647FB00D141B0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +65,13 @@
 				49661D082CC647FB00D141B0 /* CubeTool.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		49D9F7DC2CDB4C0A00F2DB50 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -67,14 +88,14 @@
 			buildRules = (
 			);
 			dependencies = (
-				4905415E2CCE86B2004D38A4 /* PBXTargetDependency */,
+				49D9F7DB2CDB4C0600F2DB50 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				49661D0A2CC647FB00D141B0 /* CubeTool */,
 			);
 			name = CubeTool;
 			packageProductDependencies = (
-				4905415B2CCE86A3004D38A4 /* SwiftLogMacro */,
+				49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */,
 			);
 			productName = CubeTool;
 			productReference = 49661D082CC647FB00D141B0 /* CubeTool.app */;
@@ -105,7 +126,7 @@
 			mainGroup = 49661CFF2CC647FB00D141B0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */,
+				49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49661D092CC647FB00D141B0 /* Products */;
@@ -138,9 +159,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4905415E2CCE86B2004D38A4 /* PBXTargetDependency */ = {
+		49D9F7DB2CDB4C0600F2DB50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4905415D2CCE86B2004D38A4 /* SwiftLogMacro */;
+			productRef = 49D9F7DA2CDB4C0600F2DB50 /* SwiftLogMacro */;
 		};
 /* End PBXTargetDependency section */
 
@@ -277,17 +298,23 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CubeTool/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wttch.CubeTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -305,17 +332,23 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CubeTool/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wttch.CubeTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -343,7 +376,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */ = {
+		49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wttch96/SwiftLogMacro";
 			requirement = {
@@ -354,14 +387,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4905415B2CCE86A3004D38A4 /* SwiftLogMacro */ = {
+		49D9F7DA2CDB4C0600F2DB50 /* SwiftLogMacro */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
+			package = 49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
 			productName = SwiftLogMacro;
 		};
-		4905415D2CCE86B2004D38A4 /* SwiftLogMacro */ = {
+		49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4905415A2CCE86A3004D38A4 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
+			package = 49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
 			productName = SwiftLogMacro;
 		};
 /* End XCSwiftPackageProductDependency section */

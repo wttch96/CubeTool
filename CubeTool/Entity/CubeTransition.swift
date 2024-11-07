@@ -112,6 +112,7 @@ extension CubeTransition {
         guard let transitions = try? JSONDecoder().decode(CubeTransition.self, from: data) else { return CubeTransition() }
         return transitions
     }
+    
 
     /// 获取哪个状态通过 formulaKey 公式可以转变为 state 状态
     func origin(_ formulaKey: CubeFormula, _ state: String) -> String? {
@@ -128,7 +129,7 @@ extension CubeTransition {
     /// 获取哪个状态通过 formulaKey 公式可以转变为 currentState 状态
     func statesLeadingTo(currentState: Int) -> [String: CubeFormula] {
         var result: [String: CubeFormula] = [:]
-
+        
         for (from, toTransitions) in transition {
             for transition in toTransitions {
                 if transition.reach == currentState {
@@ -136,11 +137,7 @@ extension CubeTransition {
                 }
             }
         }
-
+        
         return result
-    }
-
-    func reachableStates(from state: String) -> [String: CubeFormula] {
-        return [:]
     }
 }

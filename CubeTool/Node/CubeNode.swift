@@ -12,7 +12,7 @@ import SwiftLogMacro
 @Log
 class CubeNode: SCNNode {
     var pieceNodes: [[[PieceNode]]] = []
-    var stickerType: CubeStickerType = .y2Gray
+    var stickerType: CubeStateType = .f2l
     
     private var isRotating: Bool = false
 

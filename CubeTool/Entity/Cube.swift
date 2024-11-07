@@ -12,7 +12,7 @@ import Foundation
 /// 魔方的保存格式
 struct Cube: Codable {
     /// 魔方的贴图
-    let stickerType: CubeStickerType
+    let stickerType: CubeStateType
 
     /// 魔方块定义
     let pieces: [[[Piece]]]
@@ -20,7 +20,7 @@ struct Cube: Codable {
 
 extension Cube {
     /// 初始化魔方
-    init(stickerType: CubeStickerType) {
+    init(stickerType: CubeStateType) {
         self.stickerType = stickerType
 
         var pieces = Array(repeating: Array(repeating: Array(repeating: Piece.zero, count: 3), count: 3), count: 3)
@@ -47,26 +47,5 @@ extension Cube {
         guard let data = try? Data(contentsOf: contentsOf) else { return nil }
         guard let cube = try? JSONDecoder().decode(Cube.self, from: data) else { return nil }
         self = cube
-    }
-}
-
-/// 魔方贴图类型
-enum CubeStickerType: String, Codable {
-    /// 正常的魔方贴图
-    case normal
-    /// U 面全为灰色
-    case y2Gray
-    /// U 面为白色, 四周为灰色
-    case topWhite
-
-    var pieces: [Pieces] {
-        switch self {
-        case .normal:
-            Pieces.all
-        case .y2Gray:
-            Pieces.y2Gray
-        case .topWhite:
-            Pieces.topWhite
-        }
     }
 }
