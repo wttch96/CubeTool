@@ -150,7 +150,7 @@ extension CubeView {
         
         scnView.scene = scene
         // 启用用户交互
-        scnView.allowsCameraControl = true
+        // scnView.allowsCameraControl = true
         
         return scnView
     }

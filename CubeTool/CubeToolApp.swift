@@ -5,8 +5,10 @@
 //  Created by Wttch on 2024/10/21.
 //
 
-import SwiftUI
+//import ApplicationServices
+//qimport Cocoa
 import SwiftData
+import SwiftUI
 
 @main
 struct CubeToolApp: App {

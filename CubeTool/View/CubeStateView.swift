@@ -12,9 +12,12 @@ struct CubeStateView: View {
     static let cubeView = CubeView()
     let index: CubeStateIndex
 
-    let transitions: CubeTransition
-    let statesLeadingTo: [String: CubeFormula]
-    let reachableStates: [CubeFormula]
+    /// 
+    private let transitions: CubeTransition
+    /// 从哪里来
+    private let statesLeadingTo: [String: CubeFormula]
+    /// 可以到哪里去
+    private let reachableStates: [CubeFormula]
 
     @State private var showSettingSheet = false
     @AppStorage("op-duration") private var duration: Double = 0.2
@@ -24,7 +27,9 @@ struct CubeStateView: View {
 
         transitions = ResourceUtil.shared.transitions(of: index.type)
         statesLeadingTo = ResourceUtil.shared.stateLeadingTo(index)
+        // 只保留复原
         reachableStates = ResourceUtil.shared.reachableStates(index)
+            .filter({ $0.reach == 0 })
 
         cubeView.performCube(index.filename)
     }
@@ -34,17 +39,21 @@ struct CubeStateView: View {
             cubeView
                 .frame(width: 300, height: 300)
 
-            Spacer()
-
-            TabView {
-                formulaListView(statesLeadingTo)
-                    .tabItem {
-                        Text("来源")
-                    }
-                formulaListView(reachableStates)
-                    .tabItem {
-                        Text("目标")
-                    }
+            Divider()
+            
+            
+            HStack {
+                VStack {
+                    Text("从这里来")
+                        .font(.headline)
+                    formulaListView(statesLeadingTo)
+                }
+                Divider()
+                VStack {
+                    Text("可以到哪里去")
+                        .font(.headline)
+                    formulaListView(reachableStates)
+                }
             }
         }
         .navigationTitle(index.filename)
@@ -58,7 +67,7 @@ struct CubeStateView: View {
         .sheet(isPresented: $showSettingSheet, content: {
             Form {
                 Text("动画用时: \(duration * 1000, specifier: "%.0f") ms")
-                Slider(value: $duration, in: 0.1 ... 1, step: 0.05, label: {
+                Slider(value: $duration, in: 0.1 ... 1, step: 0.02, label: {
                     Text("")
                 }, minimumValueLabel: {
                     Text("100")
@@ -66,14 +75,15 @@ struct CubeStateView: View {
                     Text("1000 ms")
                 })
 
-                Spacer()
-
-                Button {
-                    showSettingSheet.toggle()
-                } label: {
-                    Text("完成")
+                HStack {
+                    Spacer()
+                    Button("完成", action: {
+                        showSettingSheet.toggle()
+                    })
+                    .buttonStyle(.borderedProminent)
                 }
             }
+            .padding()
         })
     }
 
@@ -119,7 +129,7 @@ extension CubeStateView {
             }
             Spacer()
         }
-        .contentShape(Rectangle()) 
+        .contentShape(Rectangle())
         .onTapGesture {
             cubeView.performCube(stateIndex.filename)
 
@@ -131,6 +141,8 @@ extension CubeStateView {
 }
 
 #Preview {
-    CubeStateView(index: .oll(0))
-        .navigationTitle("Preview")
+    NavigationStack {
+        CubeStateView(index: .f2l(1))
+            .navigationTitle("Preview")
+    }
 }
