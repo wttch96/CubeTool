@@ -29,7 +29,7 @@ struct CubeStateView: View {
         statesLeadingTo = ResourceUtil.shared.stateLeadingTo(index)
         // 只保留复原
         reachableStates = ResourceUtil.shared.reachableStates(index)
-            .filter({ $0.reach == 0 })
+            .filter { $0.reach == 0 }
 
         cubeView.performCube(index.filename)
     }
@@ -40,8 +40,7 @@ struct CubeStateView: View {
                 .frame(width: 300, height: 300)
 
             Divider()
-            
-            
+
             HStack {
                 VStack {
                     Text("从这里来")
@@ -141,8 +140,7 @@ extension CubeStateView {
 }
 
 #Preview {
-    NavigationStack {
-        CubeStateView(index: .f2l(1))
-            .navigationTitle("Preview")
-    }
+    CubeStateView(index: .f2l(10))
+        .navigationTitle("Preview")
+        .frame(height: 600)
 }

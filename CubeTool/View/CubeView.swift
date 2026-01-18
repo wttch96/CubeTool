@@ -18,6 +18,7 @@ struct CubeView: NSViewRepresentable {
     
     init() {
         print("Init CubeView")
+        // self.performCube("F2L-00")
     }
     
     func makeNSView(context: Context) -> SCNView {
@@ -150,7 +151,7 @@ extension CubeView {
         
         scnView.scene = scene
         // 启用用户交互
-        // scnView.allowsCameraControl = true
+        scnView.allowsCameraControl = true
         
         return scnView
     }
@@ -189,6 +190,19 @@ extension CubeView {
         scene.rootNode.addChildNode(xAxis)
         scene.rootNode.addChildNode(yAxis)
         scene.rootNode.addChildNode(zAxis)
+        
+        // 显示 F 箭头
+        // 围绕 x 轴画半圆线段
+        let tube = SCNTube(innerRadius: 54, outerRadius: 55, height: 2)
+        
+        
+        let arrowNode = SCNNode(
+            geometry: tube
+        )
+        arrowNode.geometry?.firstMaterial?.diffuse.contents = xAxisColor
+        arrowNode.position = SCNVector3(102, 0, 0)
+        arrowNode.eulerAngles = SCNVector3(0, 0, Float.pi / 2)
+        scene.rootNode.addChildNode(arrowNode)
     }
     
     func exec(_ moveString: String, duration: Double, action: @escaping () -> Void = {}) {
