@@ -19,6 +19,15 @@ struct Pieces {
     static let r: CGColor = .init(red: 1.0, green: 0.0, blue: 0.5, alpha: 1.0)
     static let u: CGColor = .init(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
     static let d: CGColor = .init(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
+    private static let x0y1y2: [[CGColor?]] = [
+        [nil, b, l, nil, nil, d],
+        [nil, nil, l, nil, nil, d],
+        [f, nil, l, nil, nil, d],
+        [nil, b, l, nil, u, nil],
+        [nil, nil, l, nil, u, nil],
+        [f, nil, l, nil, u, nil],
+    ]
 
     static let fs: StickerDefinition = .init(f)
     static let bs: StickerDefinition = .init(b)

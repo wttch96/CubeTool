@@ -7,6 +7,7 @@
 import CoreGraphics
 
 /// 贴图定义
+@available(*, deprecated)
 struct StickerDefinition {
     let color: CGColor
     let topLeftCorner: Bool

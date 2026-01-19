@@ -57,6 +57,22 @@ extension IntVector4 {
 }
 
 extension IntVector3 {
+    func toSIMD3() -> SIMD3<Int> {
+        SIMD3<Int>(x, y, z)
+    }
+}
+
+extension IntVector4 {
+    func toSimdQuatf() -> simd_quatf {
+        simd_quatf(ix: Float(x) / 10000, iy: Float(y) / 10000, iz: Float(z) / 10000, r: Float(w) / 10000)
+    }
+    
+    static func from(_ quatf: simd_quatf) -> Self {
+        return Self(Int(quatf.imag.x * 10000), Int(quatf.imag.y * 10000), Int(quatf.imag.z * 10000), Int(quatf.real * 10000))
+    }
+}
+
+extension IntVector3 {
     init(_ x: Int, _ y: Int, _ z: Int) {
         self.init(x: x, y: y, z: z)
     }

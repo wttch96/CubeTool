@@ -9,22 +9,64 @@ import RealityKit
 import SwiftUI
 
 struct RealityKitDemo: View {
-
-    let entity1 = createCube(l: .gray, r: .gray, u: .blue, d: .green, f: nil, b: nil)
+    let entity1 = createCube(l: .gray, r: .gray, u: .blue, d: .green, f: .red, b: nil)
     
+    // 1. 创建相机实体
+    let camera = PerspectiveCamera()
+    
+    private static let cubeColors: [[Color?]] = [
+        [.gray, .gray, .blue, .green, nil, nil],
+        [.orange, .orange, .blue, .green, nil, nil],
+        [.red, .red, .blue, .green, nil, nil],
+        [.white, .white, .blue, .green, nil, nil],
+        [.gray, .gray, .white, .yellow, nil, nil],
+        [.orange, .orange, .white, .yellow, nil, nil],
+        [.red, .red, .white, .yellow, nil, nil],
+        [.white, .white, .white, .yellow, nil, nil]
+    ]
+    
+    let cubeEntity = ModelEntity()
     var body: some View {
         RealityView { content in
-
             
-            content.add(entity1)
+            for i in 1...3 {
+                for j in 1...3 {
+                    for k in 1...3 {
+                        let entity = Self.createCube(l: .blue, r: .green, u: .yellow, d: .white, f: .red, b: .orange)
+                        entity.position = [Float(i - 2), Float(j - 2), Float(k - 2)]
+                        cubeEntity.addChild(entity)
+                    }
+                }
+            }
             
-            // 1. 创建相机实体
-            let camera = PerspectiveCamera()
+            content.add(cubeEntity)
+            
+            // 添加三个轴
+            let axisLength: Float = 3
+            let axisThickness: Float = 0.05
+            let xAxis = ModelEntity(
+                mesh: MeshResource.generateBox(size: [axisLength, axisThickness, axisThickness]),
+                materials: [SimpleMaterial(color: .red, isMetallic: false)]
+            )
+            xAxis.position = [axisLength / 2, 0, 0]
+            cubeEntity.addChild(xAxis)
+            let yAxis = ModelEntity(
+                mesh: MeshResource.generateBox(size: [axisThickness, axisLength, axisThickness]),
+                materials: [SimpleMaterial(color: .green, isMetallic: false)]
+            )
+            yAxis.position = [0, axisLength / 2, 0]
+            cubeEntity.addChild(yAxis)
+            let zAxis = ModelEntity(
+                mesh: MeshResource.generateBox(size: [axisThickness, axisThickness, axisLength]),
+                materials: [SimpleMaterial(color: .blue, isMetallic: false)]
+            )
+            zAxis.position = [0, 0, axisLength / 2]
+            cubeEntity.addChild(zAxis)
 
             // 2. 设置位置并看向原点
             // position: 相机所在位置 [1, 1, 1]
             // target: 目标位置 [0, 0, 0]
-            let cameraPosition: SIMD3<Float> = [1.0, 1.0, 1.0]
+            let cameraPosition: SIMD3<Float> = [5, 5, 5]
             let targetPosition: SIMD3<Float> = [0.0, 0.0, 0.0]
 
             camera.look(at: targetPosition, from: cameraPosition, relativeTo: nil)
@@ -33,12 +75,25 @@ struct RealityKitDemo: View {
             // 在 RealityKit 中，必须将相机添加到一个锚点或直接添加到内容中
             content.add(camera)
             // ceamera 围绕 原点旋转
+            
+            cubeEntity.transform.rotation = IntVector4(1000, 1000, 0, 10000).toSimdQuatf()
         }
         .onTapGesture {
-            
-            startInfiniteRotation(entity: entity1)
+            camera.move(to: Transform(translation: [2, 2, 2]), relativeTo: camera.parent, duration: 1)
         }
+        .gesture(DragGesture().onChanged { value in
+            let width = value.translation.width
+            // Rotate around Z axis (Roll)
+            let angle = Float(width / 2000)
+
+            var transform = cubeEntity.transform
+
+            transform.rotation *= simd_quatf(angle: angle, axis: [0, 1, 0])
+
+            cubeEntity.transform = transform
+        })
     }
+
     func startInfiniteRotation(entity: Entity) {
         // 创建一个从当前状态旋转 360 度的变换
         var transform = entity.transform
@@ -60,41 +115,46 @@ extension RealityKitDemo {
     private static func createCube(l: Color?, r: Color?, u: Color?, d: Color?, f: Color?, b: Color?) -> ModelEntity {
         // 使用六个 BoxMesh 和一个中心块拼接成
         let colors = [l, r, u, d, f, b]
+        let cubeSize: Float = 1
+        // 六个面的位置
         let position = [
             SIMD3<Float>(-0.5, 0, 0), // left
-            SIMD3<Float>(0.5, 0, 0),  // right
-            SIMD3<Float>(0, 0.5, 0),  // up
+            SIMD3<Float>(0.5, 0, 0), // right
+            SIMD3<Float>(0, 0.5, 0), // up
             SIMD3<Float>(0, -0.5, 0), // down
-            SIMD3<Float>(0, 0, 0.5),  // front
-            SIMD3<Float>(0, 0, -0.5)  // back
-        ]
-        let rotation = [
-            simd_quatf(angle: .pi/2 , axis: [0, 0, 1]), // left
-            simd_quatf(angle: -.pi/2 , axis: [0, 0, 1]), // right
-            simd_quatf(angle: 0 , axis: [0, 0, 1]), // up
-            simd_quatf(angle: .pi , axis: [0, 0, 1]), // down
-            simd_quatf(angle: -.pi/2 , axis: [1, 0, 0]), // front
-            simd_quatf(angle: .pi/2 , axis: [1, 0, 0])  // back
-        ]
+            SIMD3<Float>(0, 0, 0.5), // front
+            SIMD3<Float>(0, 0, -0.5) // back
+        ].map { $0 * cubeSize }
         
+        // 六个面的旋转角度
+        let rotation = [
+            simd_quatf(angle: .pi / 2, axis: [0, 0, 1]), // left
+            simd_quatf(angle: -.pi / 2, axis: [0, 0, 1]), // right
+            simd_quatf(angle: 0, axis: [0, 0, 1]), // up
+            simd_quatf(angle: .pi, axis: [0, 0, 1]), // down
+            simd_quatf(angle: -.pi / 2, axis: [1, 0, 0]), // front
+            simd_quatf(angle: .pi / 2, axis: [1, 0, 0]) // back
+        ]
+        // 中心块
         var material = PhysicallyBasedMaterial()
         material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: .black)
         let cubeEntity = ModelEntity(
-            mesh: MeshResource.generateBox(size: 1.0),
+            mesh: MeshResource.generateBox(size: cubeSize),
             materials: [material]
         )
-        
-        for i in 0..<6 {
+        // 循环生成六个面
+        for i in 0 ..< 6 {
             guard let color = colors[i] else { continue }
-            let boxMesh = MeshResource.generateBox(width: 0.95, height: 0.1, depth: 0.95, cornerRadius: 0.05)
-            var material = PhysicallyBasedMaterial()
+            let boxMesh = MeshResource.generateBox(
+                width: 0.95 * cubeSize,
+                height: 0.04 * cubeSize,
+                depth: 0.95 * cubeSize,
+                cornerRadius: 0.02
+            )
             
-            // 2. 粗糙度 (Roughness)：0.0 是镜面，1.0 是完全磨砂
-            material.roughness = 0.2 // 稍微有一点点磨砂质感的塑料感
-
-            // 3. 金属感 (Metallic)：0.0 是非金属（如塑料），1.0 是纯金属
-            material.metallic = 0.0 // 魔方通常是塑料材质
+            var material = Self.faceMaterial
             material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: NSColor(color))
+            
             let faceEntity = ModelEntity(mesh: boxMesh, materials: [material])
             faceEntity.position = position[i]
             faceEntity.transform.rotation = rotation[i]
@@ -104,6 +164,15 @@ extension RealityKitDemo {
         
         return cubeEntity
     }
+    
+    private static let faceMaterial: PhysicallyBasedMaterial = {
+        var material = PhysicallyBasedMaterial()
+        // 2. 粗糙度 (Roughness)：0.0 是镜面，1.0 是完全磨砂
+        material.roughness = 0.2 // 稍微有一点点磨砂质感的塑料感
+        // 3. 金属感 (Metallic)：0.0 是非金属（如塑料），1.0 是纯金属
+        material.metallic = 0.0 // 魔方通常是塑料材质
+        return material
+    }()
 }
 
 #Preview {

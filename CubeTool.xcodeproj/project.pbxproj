@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		493B824A2F1C16310010AAD4 /* SwiftLogMacro in Frameworks */ = {isa = PBXBuildFile; productRef = 49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */; };
+		4989888F2F1E2BD500D4B8C8 /* SwiftLogMacro in Frameworks */ = {isa = PBXBuildFile; productRef = 4989888E2F1E2BD500D4B8C8 /* SwiftLogMacro */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				493B824A2F1C16310010AAD4 /* SwiftLogMacro in Frameworks */,
+				4989888F2F1E2BD500D4B8C8 /* SwiftLogMacro in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,14 +88,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				493B82492F1BCDBC0010AAD4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				49661D0A2CC647FB00D141B0 /* CubeTool */,
 			);
 			name = CubeTool;
 			packageProductDependencies = (
-				49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */,
+				4989888E2F1E2BD500D4B8C8 /* SwiftLogMacro */,
 			);
 			productName = CubeTool;
 			productReference = 49661D082CC647FB00D141B0 /* CubeTool.app */;
@@ -109,7 +108,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					49661D072CC647FB00D141B0 = {
 						CreatedOnToolsVersion = 16.0;
@@ -126,7 +125,7 @@
 			mainGroup = 49661CFF2CC647FB00D141B0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */,
+				4989888D2F1E2BD500D4B8C8 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49661D092CC647FB00D141B0 /* Products */;
@@ -157,13 +156,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		493B82492F1BCDBC0010AAD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 493B82482F1BCDBC0010AAD4 /* SwiftLogMacro */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		49661D172CC647FC00D141B0 /* Debug */ = {
@@ -200,7 +192,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MYB5299FCX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -219,13 +213,15 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -263,7 +259,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MYB5299FCX;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -276,11 +274,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -293,8 +293,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CubeTool/Preview Content\"";
-				DEVELOPMENT_TEAM = B2QC3G5H48;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -328,8 +328,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CubeTool/Preview Content\"";
-				DEVELOPMENT_TEAM = B2QC3G5H48;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -378,25 +378,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */ = {
+		4989888D2F1E2BD500D4B8C8 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wttch96/SwiftLogMacro";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 0.0.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		493B82482F1BCDBC0010AAD4 /* SwiftLogMacro */ = {
+		4989888E2F1E2BD500D4B8C8 /* SwiftLogMacro */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
-			productName = SwiftLogMacro;
-		};
-		49D9F7DD2CDB4C0A00F2DB50 /* SwiftLogMacro */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 49D9F7D92CDB4AF100F2DB50 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
+			package = 4989888D2F1E2BD500D4B8C8 /* XCRemoteSwiftPackageReference "SwiftLogMacro" */;
 			productName = SwiftLogMacro;
 		};
 /* End XCSwiftPackageProductDependency section */
