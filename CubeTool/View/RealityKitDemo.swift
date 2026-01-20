@@ -9,35 +9,22 @@ import RealityKit
 import SwiftUI
 
 struct RealityKitDemo: View {
-    let entity1 = createCube(l: .gray, r: .gray, u: .blue, d: .green, f: .red, b: nil)
     
     // 1. 创建相机实体
     let camera = PerspectiveCamera()
-    
-    private static let cubeColors: [[Color?]] = [
-        [.gray, .gray, .blue, .green, nil, nil],
-        [.orange, .orange, .blue, .green, nil, nil],
-        [.red, .red, .blue, .green, nil, nil],
-        [.white, .white, .blue, .green, nil, nil],
-        [.gray, .gray, .white, .yellow, nil, nil],
-        [.orange, .orange, .white, .yellow, nil, nil],
-        [.red, .red, .white, .yellow, nil, nil],
-        [.white, .white, .white, .yellow, nil, nil]
-    ]
     
     let cubeEntity = ModelEntity()
     var body: some View {
         RealityView { content in
             
-            for i in 1...3 {
-                for j in 1...3 {
-                    for k in 1...3 {
-                        let entity = Self.createCube(l: .blue, r: .green, u: .yellow, d: .white, f: .red, b: .orange)
-                        entity.position = [Float(i - 2), Float(j - 2), Float(k - 2)]
-                        cubeEntity.addChild(entity)
-                    }
-                }
-            }
+            var cubeEntity = Entity(components: [
+                PieceColorComponent(
+                    l: .orange,
+                    r: .blue,
+                    u: .yellow,
+                    f: .red,
+                )
+            ])
             
             content.add(cubeEntity)
             
@@ -66,7 +53,7 @@ struct RealityKitDemo: View {
             // 2. 设置位置并看向原点
             // position: 相机所在位置 [1, 1, 1]
             // target: 目标位置 [0, 0, 0]
-            let cameraPosition: SIMD3<Float> = [5, 5, 5]
+            let cameraPosition: SIMD3<Float> = [2, 2, 2]
             let targetPosition: SIMD3<Float> = [0.0, 0.0, 0.0]
 
             camera.look(at: targetPosition, from: cameraPosition, relativeTo: nil)
@@ -76,7 +63,7 @@ struct RealityKitDemo: View {
             content.add(camera)
             // ceamera 围绕 原点旋转
             
-            cubeEntity.transform.rotation = IntVector4(1000, 1000, 0, 10000).toSimdQuatf()
+            // cubeEntity.transform.rotation = IntVector4(1000, 1000, 0, 10000).toSimdQuatf()
         }
         .onTapGesture {
             camera.move(to: Transform(translation: [2, 2, 2]), relativeTo: camera.parent, duration: 1)
@@ -177,4 +164,8 @@ extension RealityKitDemo {
 
 #Preview {
     RealityKitDemo()
+        .onAppear {
+            PieceColorComponent.registerComponent()
+            PieceColorSystem.registerSystem()
+        }
 }

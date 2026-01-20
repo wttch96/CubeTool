@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import SceneKit
-
 /// 魔方操作
 struct CubeOperator {
     /// 旋转的块的索引
