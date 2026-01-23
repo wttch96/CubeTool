@@ -7,6 +7,8 @@ struct RealityKitDemo: View {
     
     // 2. [建议] 相机也可以作为一个 Entity 管理，或者保持现状
     private let camera = PerspectiveCamera()
+    
+    @State private var cubes: [Entity] = []
 
     // 3. [修复] 在 init 中注册组件，确保 App 运行时也能生效
     init() {
@@ -14,6 +16,7 @@ struct RealityKitDemo: View {
         // 但最佳实践是写个单例或静态标记。这里简单写在 init 里。
         PieceComponent.registerComponent()
         PieceSetupSystem.registerSystem()
+        CubeRotateSystem.registerSystem()
         // PieceColorSystem.registerSystem() // 如果你有颜色系统也加上
     }
     
@@ -44,8 +47,9 @@ struct RealityKitDemo: View {
                         } else {
                             piece.position = SIMD3<Float>([i, j, k])
                         }
-                        piece.components.set(PieceComponent(index: [i, j, k], position: [i, j, k]))
+                        piece.components.set(PieceComponent(index: [i, j, k]))
                         cubeEntity.addChild(piece)
+                        cubes.append(piece)
                     }
                 }
             }

@@ -46,6 +46,7 @@ class PieceSetupSystem: System {
     
     func update(context: SceneUpdateContext) {
         let entities = context.scene.performQuery(Self.query)
+        
         for entity in entities {
             guard var piece = entity.components[PieceComponent.self] else {
                 continue
