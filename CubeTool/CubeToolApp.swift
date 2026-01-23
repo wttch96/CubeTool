@@ -14,7 +14,7 @@ import SwiftUI
 struct CubeToolApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RealityKitDemo()
         }
     }
 }
