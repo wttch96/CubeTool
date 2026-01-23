@@ -58,7 +58,7 @@ class PieceSetupSystem: System {
             let cubeSize: Float = 1.0
             
             var material = PhysicallyBasedMaterial()
-            material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: .black)
+            material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: .black.withAlphaComponent(0.5))
             let center = ModelEntity(
                 mesh: MeshResource.generateBox(size: cubeSize),
                 materials: [material]
