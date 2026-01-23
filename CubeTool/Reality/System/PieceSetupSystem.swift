@@ -64,6 +64,7 @@ class PieceSetupSystem: System {
                 materials: [material]
             )
             entity.addChild(center)
+            entity.components[CubeRotateComponent.self] = CubeRotateComponent()
             
             // 生成颜色面
             let boxMesh = MeshResource.generateBox(

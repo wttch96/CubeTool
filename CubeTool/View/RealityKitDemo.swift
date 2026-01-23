@@ -15,6 +15,7 @@ struct RealityKitDemo: View {
         // 为了防止重复注册导致 Crash，RealityKit 内部会自动处理，
         // 但最佳实践是写个单例或静态标记。这里简单写在 init 里。
         PieceComponent.registerComponent()
+        CubeRotateComponent.registerComponent()
         PieceSetupSystem.registerSystem()
         CubeRotateSystem.registerSystem()
         // PieceColorSystem.registerSystem() // 如果你有颜色系统也加上
@@ -64,6 +65,9 @@ struct RealityKitDemo: View {
             content.add(camera)
             
             // D. 将根节点加入场景
+            
+            cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
+            cubeEntity.name = "CubeRoot"
             content.add(cubeEntity)
             
         }
