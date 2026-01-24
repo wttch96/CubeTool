@@ -45,6 +45,7 @@ class PieceSetupSystem: System {
 
     
     func update(context: SceneUpdateContext) {
+        
         let entities = context.scene.performQuery(Self.query)
         
         for entity in entities {
@@ -90,7 +91,7 @@ class PieceSetupSystem: System {
                 var color = Self.colorList[index]
                 
                 // 变灰
-                if piece.index.y == 1 && index != 2 {
+                if piece.index.y == 1 /*&& index != 2*/ {
                     color = .init(gray: 0.3, alpha: 1)
                 }
                 

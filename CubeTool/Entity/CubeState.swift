@@ -15,7 +15,7 @@ enum CubeStateType: String, Codable, CaseIterable, Hashable, Identifiable {
     var id: String { self.rawValue }
 }
 
-struct CubeStateIndex: Equatable, Hashable, CustomStringConvertible {
+struct CubeStateIndex: Codable, Equatable, Hashable, CustomStringConvertible {
     let type: CubeStateType
     let index: Int
     

@@ -24,11 +24,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		49898ACC2F247DBE00D4B8C8 /* Exceptions for "CubeTool" folder in "Compile Sources" phase from "CubeTool" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 49661D042CC647FB00D141B0 /* Sources */;
+			membershipExceptions = (
+				Resource/Formula.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		49661D0A2CC647FB00D141B0 /* CubeTool */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				49078BDB2CD8B32E0017954D /* Exceptions for "CubeTool" folder in "CubeTool" target */,
+				49898ACC2F247DBE00D4B8C8 /* Exceptions for "CubeTool" folder in "Compile Sources" phase from "CubeTool" target */,
 			);
 			explicitFileTypes = {
 				"Resource/State/F2L/F2L-35.json" = text.json;

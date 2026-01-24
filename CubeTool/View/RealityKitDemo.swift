@@ -18,6 +18,7 @@ struct RealityKitDemo: View {
         CubeRotateComponent.registerComponent()
         PieceSetupSystem.registerSystem()
         CubeRotateSystem.registerSystem()
+        CubeSetupSystem.registerSystem()
         // PieceColorSystem.registerSystem() // 如果你有颜色系统也加上
     }
     
@@ -32,28 +33,6 @@ struct RealityKitDemo: View {
         RealityView { content in
             // --- 场景构建 ---
             
-            // A. 生成 3x3x3 结构
-            // 注意：这里生成的只是“空壳”Entity，带有一个数据组件
-            // 真正生成 3D 模型(Mesh)的工作，应该由 'PieceSetupSystem' 完成
-            for i in -1...1 {
-                for j in -1...1 {
-                    for k in -1...1 {
-                        let piece = Entity()
-                        // 绑定组件
-                        if i == 1 {
-                            piece.position = SIMD3<Float>([i, k, -j])
-                            // 右手旋转
-                            piece.transform.rotation = simd_quatf(angle:  -.pi / 2, axis: [1, 0, 0]) * piece.transform.rotation
-                            print(piece.transform.rotation)
-                        } else {
-                            piece.position = SIMD3<Float>([i, j, k])
-                        }
-                        piece.components.set(PieceComponent(index: [i, j, k]))
-                        cubeEntity.addChild(piece)
-                        cubes.append(piece)
-                    }
-                }
-            }
             
             // B. 添加辅助轴 (Visual Debugging)
             addDebugAxes(to: cubeEntity)
@@ -66,6 +45,7 @@ struct RealityKitDemo: View {
             
             // D. 将根节点加入场景
             
+            cubeEntity.components[CubeReplayComponent.self] = CubeReplayComponent(formula: "")
             cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
             cubeEntity.name = "CubeRoot"
             content.add(cubeEntity)
@@ -89,6 +69,15 @@ struct RealityKitDemo: View {
                 duration: 0.5, // 1秒略慢，0.5秒比较跟手
                 timingFunction: .easeInOut
             )
+        }
+        .onAppear {
+            
+            if let url = Bundle.main.url(forResource: "Formula", withExtension: "json") {
+                let jsonData = try! Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let formulas = try! decoder.decode(Formula.self, from: jsonData)
+                print(formulas)
+            }
         }
     }
     

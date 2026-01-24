@@ -1,0 +1,12 @@
+{
+    "simple": {
+        "": ""
+    },
+    "formula": [
+        {
+            "from": "F2L-00",
+            "to": "F2L-01",
+            "formula": "U R U' R'"
+        }
+    ]
+}

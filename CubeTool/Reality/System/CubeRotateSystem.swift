@@ -67,6 +67,44 @@ struct Operator {
     static let E: Self = .init(.y, layers: [1], axis: [0, 1, 0], clockwise: true)
     static let S: Self = .init(.z, layers: [1], axis: [0, 0, 1], clockwise: false)
     
+    static let moveMap: [CubeMove: Self] = [
+        .L: .L,
+        .L_prime: .L.reversed(),
+        .R: .R,
+        .R_prime: .R.reversed(),
+        .U: .U,
+        .U_prime: .U.reversed(),
+        .D: .D,
+        .D_prime: .D.reversed(),
+        .F: .F,
+        .F_prime: .F.reversed(),
+        .B: .B,
+        .B_prime: .B.reversed(),
+        .l: .l,
+        .l_prime: .l.reversed(),
+        .r: .r,
+        .r_prime: .r.reversed(),
+        .u: .u,
+        .u_prime: .u.reversed(),
+        .d: .d,
+        .d_prime: .d.reversed(),
+        .f: .f,
+        .f_prime: .f.reversed(),
+        .b: .b,
+        .b_prime: .b.reversed(),
+        .x: .x,
+        .x_prime: .x.reversed(),
+        .y: .y,
+        .y_prime: .y.reversed(),
+        .z: .z,
+        .z_prime: .z.reversed(),
+        .M: .M,
+        .M_prime: .M.reversed(),
+        .E: .E,
+        .E_prime: .E.reversed(),
+        .S: .S,
+    ]
+    
     /// 返回一个相反方向的操作
     func reversed() -> Self {
         return Operator(predicate: self.predicate, axis: self.axis, clockwise: !self.clockwise)
@@ -78,39 +116,81 @@ class CubeRotateSystem: System {
     private static let cubeOperatoring = EntityQuery(where: .has(CubeRotateComponent.self))
     
     
-    var operationQueue: [Operator] = [
-        .R, .U.reversed(), .R.reversed(), .U, .y.reversed(), .R.reversed(), .U, .U, .R, .U.reversed(), .U.reversed(), .R.reversed(), .U, .R
-    ]
+    var operationQueue: [CubeMove] = CubeParser.parseMoves(from: "(RU'R'U)y'(R'U2RU'2)(R'UR)")
     
+    var scene: Scene
     
-    required init(scene: Scene) {}
+    static var dependencies: [SystemDependency] = [.before(CubeSetupSystem.self)]
     
-    private static func replay(scene: Scene, operators: [Operator]) {
-        for op in operators {
-            let pieces = scene.performQuery(Self.query)
-            let rotateEntity = Entity()
-            let size: Float = 1
-            pieces.filter { op.predicate($0, size) }
-                .forEach { piece in
-                    piece.removeFromParent()
-                    rotateEntity.addChild(piece)
-                }
-            scene.findEntity(named: "CubeRoot")?.addChild(rotateEntity)
-            // 逆时针?
-            let angle: Float = (op.clockwise ? 1 : -1) * .pi / 2
-            let rotation = rotateEntity.transform.rotation * simd_quatf(angle: angle, axis: op.axis)
-            var transform = rotateEntity.transform
-            transform.rotation = rotation
-            rotateEntity.move(to: transform, relativeTo: rotateEntity.parent)
-            scene.performQuery(Self.query).forEach { entity in
-                entity.removeFromParent(preservingWorldTransform: true)
-                
-                scene.findEntity(named: "CubeRoot")?.addChild(entity)
+    required init(scene: Scene) {
+        self.scene = scene
+    }
+    
+    /// 执行一个旋转操作
+    private func performOpeartor(_ move: CubeMove, duration: TimeInterval?=nil, moveEnd: (() -> Void)?=nil) {
+        print("开始执行操作:\(move)")
+        let pieces = scene.performQuery(Self.query)
+        let rotateEntity = Entity()
+        let size: Float = 1
+        let op = Operator.moveMap[move]!
+        pieces.filter { op.predicate($0, size) }
+            .forEach { piece in
+                piece.removeFromParent()
+                rotateEntity.addChild(piece)
             }
+        scene.findEntity(named: "CubeRoot")?.addChild(rotateEntity)
+        // 逆时针?
+        let angle: Float = (op.clockwise ? 1 : -1) * .pi / 2
+        let rotation = rotateEntity.transform.rotation * simd_quatf(angle: angle, axis: op.axis)
+        var transform = rotateEntity.transform
+        transform.rotation = rotation
+        if let duration = duration {
+            rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: duration, timingFunction: .easeInOut)
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.05) {
+                self.resetPieceRelation()
+                moveEnd?()
+                print("操作\(move)结束")
+            }
+        } else {
+            rotateEntity.move(to: transform, relativeTo: rotateEntity.parent)
+            self.resetPieceRelation()
+            print("操作\(move)结束")
+        }
+    }
+    
+    private func resetPieceRelation() {
+        scene.performQuery(Self.query).forEach { entity in
+            entity.removeFromParent(preservingWorldTransform: true)
+            
+            scene.findEntity(named: "CubeRoot")?.addChild(entity)
+        }
+    }
+    
+    
+    func replay(operators: String) {
+        let cubeMoves = CubeParser.parseMoves(from: operators)
+        for op in cubeMoves {
+            performOpeartor(op)
+            
+            resetPieceRelation()
         }
     }
     
     func update(context: SceneUpdateContext) {
+        // 重放和旋转
+        let cubeRoot = context.scene.findEntity(named: "CubeRoot")
+        if let cubeRoot = cubeRoot,
+            let replayComponent = cubeRoot.components[CubeReplayComponent.self],
+           let formula = replayComponent.formula,
+              replayComponent.inited
+        {
+            // 开始重放
+            replay(operators: formula)
+            cubeRoot.components[CubeReplayComponent.self] = CubeReplayComponent(formula: nil)
+            print("已恢复状态")
+            return
+        }
+        
         guard !operationQueue.isEmpty else {
             return
         }
@@ -124,41 +204,9 @@ class CubeRotateSystem: System {
             return
         }
         
-        let size: Float = 1
-        
         cube.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: true)
-        
-        let pieces = context.scene.performQuery(Self.query)
-        let op = operationQueue.removeFirst()
-        
-        print("开始旋转,\(op)")
-        let rotateEntity = Entity()
-        pieces.filter { op.predicate($0, size) }
-            .forEach { piece in
-                piece.removeFromParent()
-                rotateEntity.addChild(piece)
-            }
-        cube.addChild(rotateEntity)
-        
-        // 逆时针?
-        let angle: Float = (op.clockwise ? 1 : -1) * .pi / 2
-        let rotation = rotateEntity.transform.rotation * simd_quatf(angle: angle, axis: op.axis)
-        var transform = rotateEntity.transform
-        transform.rotation = rotation
-        rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: 0.5, timingFunction: .easeInOut)
-        
-      
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            //
-            context.scene.performQuery(Self.query).forEach { entity in
-                entity.removeFromParent(preservingWorldTransform: true)
-                
-                context.scene.findEntity(named: "CubeRoot")?.addChild(entity)
-            }
-            
+        performOpeartor(operationQueue.removeFirst(), duration: 1, moveEnd: {
             cube.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
-            print("旋转结束")
-        }
+        })
     }
 }
