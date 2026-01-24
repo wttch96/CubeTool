@@ -111,20 +111,12 @@ struct Operator {
     }
 }
 
-class CubeRotateSystem: System {
+class CubeRotateSystem: BaseSystem {
     private static let query = EntityQuery(where: .has(PieceComponent.self))
     private static let cubeOperatoring = EntityQuery(where: .has(CubeRotateComponent.self))
     
+    static var dependencies: [SystemDependency] = [.before(CubeInitSystem.self)]
     
-    var operationQueue: [CubeMove] = CubeParser.parseMoves(from: "(RU'R'U)y'(R'U2RU'2)(R'UR)")
-    
-    var scene: Scene
-    
-    static var dependencies: [SystemDependency] = [.before(CubeSetupSystem.self)]
-    
-    required init(scene: Scene) {
-        self.scene = scene
-    }
     
     /// 执行一个旋转操作
     private func performOpeartor(_ move: CubeMove, duration: TimeInterval?=nil, moveEnd: (() -> Void)?=nil) {
@@ -138,14 +130,15 @@ class CubeRotateSystem: System {
                 piece.removeFromParent()
                 rotateEntity.addChild(piece)
             }
-        scene.findEntity(named: "CubeRoot")?.addChild(rotateEntity)
+        cubeRoot?.addChild(rotateEntity)
         // 逆时针?
         let angle: Float = (op.clockwise ? 1 : -1) * .pi / 2
         let rotation = rotateEntity.transform.rotation * simd_quatf(angle: angle, axis: op.axis)
         var transform = rotateEntity.transform
         transform.rotation = rotation
         if let duration = duration {
-            rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: duration, timingFunction: .easeInOut)
+            let result = rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: duration, timingFunction: .easeInOut)
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.05) {
                 self.resetPieceRelation()
                 moveEnd?()
@@ -158,6 +151,7 @@ class CubeRotateSystem: System {
         }
     }
     
+    /// 重置魔方块的父子关系
     private func resetPieceRelation() {
         scene.performQuery(Self.query).forEach { entity in
             entity.removeFromParent(preservingWorldTransform: true)
@@ -166,47 +160,43 @@ class CubeRotateSystem: System {
         }
     }
     
-    
-    func replay(operators: String) {
-        let cubeMoves = CubeParser.parseMoves(from: operators)
-        for op in cubeMoves {
+    /// 重放一系列操作
+    func replay(operators: [CubeMove]) {
+        for op in operators {
             performOpeartor(op)
             
             resetPieceRelation()
         }
     }
     
-    func update(context: SceneUpdateContext) {
+    
+    override func update(context: SceneUpdateContext) {
         // 重放和旋转
-        let cubeRoot = context.scene.findEntity(named: "CubeRoot")
-        if let cubeRoot = cubeRoot,
-            let replayComponent = cubeRoot.components[CubeReplayComponent.self],
-           let formula = replayComponent.formula,
-              replayComponent.inited
-        {
+        guard let cubeRoot = cubeRoot else { return }
+        guard var rotateComponent = cubeRoot.components[CubeRotateComponent.self] else { return }
+        
+        if rotateComponent.immediate {
             // 开始重放
-            replay(operators: formula)
-            cubeRoot.components[CubeReplayComponent.self] = CubeReplayComponent(formula: nil)
+            replay(operators: rotateComponent.operators)
+            cubeRoot.components[CubeRotateComponent.self] = CubeRotateComponent()
             print("已恢复状态")
             return
         }
         
-        guard !operationQueue.isEmpty else {
+        guard !rotateComponent.operators.isEmpty else {
+            return
+        }
+        guard !rotateComponent.isOperating else {
             return
         }
         
-        let cube = context.scene.performQuery(Self.cubeOperatoring).first(where: { _ in true })
-
-        guard let cube = cube,
-              let rotateComponent = cube.components[CubeRotateComponent.self],
-              !rotateComponent.isOperating
-        else {
-            return
-        }
+        rotateComponent.isOperating = true
+        cubeRoot.components[CubeRotateComponent.self] = rotateComponent
         
-        cube.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: true)
-        performOpeartor(operationQueue.removeFirst(), duration: 1, moveEnd: {
-            cube.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
+        
+        performOpeartor(rotateComponent.operators.removeFirst(), duration: 1, moveEnd: {
+            rotateComponent.isOperating = false
+            cubeRoot.components[CubeRotateComponent.self] = rotateComponent
         })
     }
 }

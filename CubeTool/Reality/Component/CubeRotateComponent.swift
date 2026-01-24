@@ -10,4 +10,6 @@ import RealityKit
 
 struct CubeRotateComponent: Component {
     var isOperating: Bool = false
+    var operators: [CubeMove] = []
+    var immediate: Bool = false
 }

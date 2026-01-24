@@ -12,14 +12,11 @@ struct RealityKitDemo: View {
 
     // 3. [修复] 在 init 中注册组件，确保 App 运行时也能生效
     init() {
-        // 为了防止重复注册导致 Crash，RealityKit 内部会自动处理，
-        // 但最佳实践是写个单例或静态标记。这里简单写在 init 里。
-        PieceComponent.registerComponent()
         CubeRotateComponent.registerComponent()
-        PieceSetupSystem.registerSystem()
+        CubeInitComponent.registerComponent()
+        PieceComponent.registerComponent()
         CubeRotateSystem.registerSystem()
-        CubeSetupSystem.registerSystem()
-        // PieceColorSystem.registerSystem() // 如果你有颜色系统也加上
+        CubeInitSystem.registerSystem()
     }
     
     /// 制定一个面旋转90度
@@ -33,41 +30,27 @@ struct RealityKitDemo: View {
         RealityView { content in
             // --- 场景构建 ---
             
+            cubeEntity.components[CubeInitComponent.self] = CubeInitComponent(formula: "(RU'R'U)y'(R'U2RU'2)(R'UR)")
+            cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
+            cubeEntity.name = "CubeRoot"
+            content.add(cubeEntity)
             
             // B. 添加辅助轴 (Visual Debugging)
-            addDebugAxes(to: cubeEntity)
-
+            addDebugAxes(to: content)
+            
             // C. 设置相机
             let cameraPosition: SIMD3<Float> = [4, 4, 4] // 稍微拉远一点，防止贴脸
             let targetPosition: SIMD3<Float> = [0, 0, 0]
             camera.look(at: targetPosition, from: cameraPosition, relativeTo: nil)
             content.add(camera)
             
-            // D. 将根节点加入场景
-            
-            cubeEntity.components[CubeReplayComponent.self] = CubeReplayComponent(formula: "")
-            cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
-            cubeEntity.name = "CubeRoot"
-            content.add(cubeEntity)
             
         }
         .onTapGesture {
-            // [修复] 解开注释，实现旋转逻辑
-            
-            // 1. 获取当前变换 (基于 @State 的实体)
-            var targetTransform = cubeEntity.transform
-            
-            // 2. 计算增量旋转 (绕 Y 轴 90 度)
-            // 注意：使用乘法来叠加旋转
-            let rotationDelta = simd_quatf(angle: .pi / 2, axis: [0, 1, 0])
-            targetTransform.rotation = targetTransform.rotation * rotationDelta
-            
-            // 3. 执行动画
-            cubeEntity.move(
-                to: targetTransform,
-                relativeTo: nil,
-                duration: 0.5, // 1秒略慢，0.5秒比较跟手
-                timingFunction: .easeInOut
+            cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(
+                isOperating: false,
+                operators: [.R, .U, .R_prime, .U_prime],
+                immediate: false
             )
         }
         .onAppear {
@@ -82,7 +65,7 @@ struct RealityKitDemo: View {
     }
     
     // 辅助函数：添加坐标轴
-    private func addDebugAxes(to parent: Entity) {
+    private func addDebugAxes(to parent: RealityViewCameraContent) {
         let axisLength: Float = 3
         let thickness: Float = 0.05
         
@@ -94,9 +77,9 @@ struct RealityKitDemo: View {
             return entity
         }
         
-        parent.addChild(createAxis(size: [axisLength, thickness, thickness], color: .red, pos: [axisLength/2, 0, 0]))   // X
-        parent.addChild(createAxis(size: [thickness, axisLength, thickness], color: .green, pos: [0, axisLength/2, 0])) // Y
-        parent.addChild(createAxis(size: [thickness, thickness, axisLength], color: .blue, pos: [0, 0, axisLength/2]))  // Z
+        parent.add(createAxis(size: [axisLength, thickness, thickness], color: .red, pos: [axisLength/2, 0, 0]))   // X
+        parent.add(createAxis(size: [thickness, axisLength, thickness], color: .green, pos: [0, axisLength/2, 0])) // Y
+        parent.add(createAxis(size: [thickness, thickness, axisLength], color: .blue, pos: [0, 0, axisLength/2]))  // Z
     }
 }
 
