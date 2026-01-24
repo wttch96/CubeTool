@@ -18,7 +18,7 @@ struct CubeView: NSViewRepresentable {
     
     init() {
         print("Init CubeView")
-        // self.performCube("F2L-00")
+        self.performCube("F2L-00")
     }
     
     func makeNSView(context: Context) -> SCNView {

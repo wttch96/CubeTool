@@ -25,7 +25,8 @@ class CubeInitSystem: BaseSystem {
        
         
         self.logger.info("开始初始化魔方...")
-        cubeRoot.children.forEach { cubeRoot.removeChild($0) }
+        cubeRoot.children.removeAll()
+        
         for i in -1...1 {
             for j in -1...1 {
                 for k in -1...1 {

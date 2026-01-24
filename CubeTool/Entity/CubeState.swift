@@ -53,3 +53,9 @@ struct CubeStateIndex: Codable, Equatable, Hashable, CustomStringConvertible {
         return "\(self.type.rawValue)-\(self.index)"
     }
 }
+
+
+func == (lhs: CubeStateIndex, rhs: CubeStateIndex) -> Bool {
+    return lhs.type == rhs.type && lhs.index == rhs.index
+}
+

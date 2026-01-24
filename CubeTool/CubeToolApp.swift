@@ -12,9 +12,22 @@ import SwiftUI
 
 @main
 struct CubeToolApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
-            RealityKitDemo()
+            ContentView()
         }
+    }
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        CubeInitComponent.registerComponent()
+        CubeRotateComponent.registerComponent()
+        PieceComponent.registerComponent()
+        
+        CubeInitSystem.registerSystem()
+        CubeRotateSystem.registerSystem()
     }
 }

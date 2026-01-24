@@ -6,7 +6,28 @@
         {
             "from": "F2L-00",
             "to": "F2L-01",
-            "formula": "U R U' R'"
+            "formula": "(RU'R'U)y'(R'U2RU'2)(R'UR)"
+        },
+        {
+            "from": "F2L-01",
+            "to": "F2L-00",
+            "formula": "(RU'R'U)y'(R'U2RU'2)(R'UR)"
+        },
+        {
+            "from": "F2L-00",
+            "to": "F2L-02",
+            "formula": "RUR'y'UR'U'Ry"
+        },
+        
+        {
+            "from": "F2L-00",
+            "to": "F2L-31",
+            "formula": "RUR'U'"
+        },
+        {
+            "from": "F2L-31",
+            "to": "F2L-00",
+            "formula": "URU'R'"
         }
     ]
 }

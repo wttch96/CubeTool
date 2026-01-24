@@ -5,11 +5,13 @@
 //  Created by Wttch on 2024/11/4.
 //
 
+import RealityKit
+import SwiftLogMacro
 import SwiftUI
 
 /// 魔方状态详情
+@Log
 struct CubeStateView: View {
-    static let cubeView = CubeView()
     let index: CubeStateIndex
 
     /// 
@@ -19,8 +21,14 @@ struct CubeStateView: View {
     /// 可以到哪里去
     private let reachableStates: [CubeFormula]
 
+    /// 复原公式
+    @State private var resetFormula: String? = nil
+
     @State private var showSettingSheet = false
     @AppStorage("op-duration") private var duration: Double = 0.2
+
+    @State private var cubeEntity = Entity()
+    private let camera = PerspectiveCamera()
 
     init(index: CubeStateIndex) {
         self.index = index
@@ -30,14 +38,46 @@ struct CubeStateView: View {
         // 只保留复原
         reachableStates = ResourceUtil.shared.reachableStates(index)
             .filter { $0.reach == 0 }
-
-        cubeView.performCube(index.filename)
     }
 
     var body: some View {
         VStack {
-            cubeView
-                .frame(width: 300, height: 300)
+            RealityView { content in
+                cubeEntity.components[CubeInitComponent.self] = CubeInitComponent()
+                cubeEntity.components[CubeRotateComponent.self] = CubeRotateComponent(isOperating: false)
+                cubeEntity.name = "CubeRoot"
+                content.add(cubeEntity)
+
+                addDebugAxes(to: content)
+
+                let cameraPosition: SIMD3<Float> = [4, 4, 4] // 稍微拉远一点，防止贴脸
+                let targetPosition: SIMD3<Float> = [0, 0, 0]
+                camera.look(at: targetPosition, from: cameraPosition, relativeTo: nil)
+                content.add(camera)
+            }
+
+            HStack {
+                Text("复原公式: \(self.resetFormula ?? "无")")
+                    .font(.title)
+                    .padding(4)
+                Spacer()
+
+                Button("复原") {
+                    if let resetFormula {
+                        let formula = FormulaUtil.shared.findInitFormula(to: index)
+                        cubeEntity.components.remove(CubeRotateComponent.self)
+                        cubeEntity.components.set(CubeInitComponent(
+                            formula: formula
+                        ))
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                            
+                            cubeEntity.components.set(CubeRotateComponent(
+                                operators: CubeParser.parseMoves(from: resetFormula)
+                            ))
+                        })
+                    }
+                }
+            }
 
             Divider()
 
@@ -84,9 +124,29 @@ struct CubeStateView: View {
             }
             .padding()
         })
+        .onAppear {
+            let formula = FormulaUtil.shared.findInitFormula(to: index)
+            self.logger.info("\(index)初始化公式: \(formula ?? "无")")
+            cubeEntity.components.set(CubeInitComponent(
+                formula: formula,
+                inited: false,
+                colored: false
+            ))
+        }
+        .onChange(of: index) { _, newValue in
+            let formula = FormulaUtil.shared.findInitFormula(to: newValue)
+            self.resetFormula = FormulaUtil.shared.find(from: newValue, to: newValue.update(newIndex: 0))
+            self.logger.info("\(newValue)初始化公式: \(formula ?? "无")")
+            cubeEntity.components.set(CubeInitComponent(
+                formula: formula,
+                inited: false,
+                colored: false
+            ))
+        }
+        .onTapGesture {
+            cubeEntity.components.set(CubeRotateComponent(operators: [.x]))
+        }
     }
-
-    var cubeView = Self.cubeView
 }
 
 extension CubeStateView {
@@ -129,13 +189,26 @@ extension CubeStateView {
             Spacer()
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            cubeView.performCube(stateIndex.filename)
+    }
+}
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                cubeView.exec(self.transitions.completeFormula(formula), duration: duration)
-            }
+extension CubeStateView {
+    // 辅助函数：添加坐标轴
+    private func addDebugAxes(to parent: RealityViewCameraContent) {
+        let axisLength: Float = 3
+        let thickness: Float = 0.05
+
+        func createAxis(size: SIMD3<Float>, color: NSColor, pos: SIMD3<Float>) -> ModelEntity {
+            let mesh = MeshResource.generateBox(size: size)
+            let material = SimpleMaterial(color: color, isMetallic: false)
+            let entity = ModelEntity(mesh: mesh, materials: [material])
+            entity.position = pos
+            return entity
         }
+
+        parent.add(createAxis(size: [axisLength, thickness, thickness], color: .red, pos: [axisLength/2, 0, 0])) // X
+        parent.add(createAxis(size: [thickness, axisLength, thickness], color: .green, pos: [0, axisLength/2, 0])) // Y
+        parent.add(createAxis(size: [thickness, thickness, axisLength], color: .blue, pos: [0, 0, axisLength/2])) // Z
     }
 }
 

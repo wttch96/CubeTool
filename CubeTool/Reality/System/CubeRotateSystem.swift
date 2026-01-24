@@ -8,8 +8,6 @@
 import Foundation
 import RealityKit
 
-
-
 /// 旋转操作定义
 struct Operator {
     let predicate: (Entity, Float) -> Bool
@@ -107,19 +105,17 @@ struct Operator {
     
     /// 返回一个相反方向的操作
     func reversed() -> Self {
-        return Operator(predicate: self.predicate, axis: self.axis, clockwise: !self.clockwise)
+        return Operator(predicate: predicate, axis: axis, clockwise: !clockwise)
     }
 }
 
 class CubeRotateSystem: BaseSystem {
     private static let query = EntityQuery(where: .has(PieceComponent.self))
     private static let cubeOperatoring = EntityQuery(where: .has(CubeRotateComponent.self))
-    
-    static var dependencies: [SystemDependency] = [.before(CubeInitSystem.self)]
-    
+    private var controll: AnimationPlaybackController? = nil
     
     /// 执行一个旋转操作
-    private func performOpeartor(_ move: CubeMove, duration: TimeInterval?=nil, moveEnd: (() -> Void)?=nil) {
+    private func performOpeartor(_ move: CubeMove, duration: TimeInterval? = nil, moveEnd: (() -> Void)? = nil) {
         print("开始执行操作:\(move)")
         let pieces = scene.performQuery(Self.query)
         let rotateEntity = Entity()
@@ -137,7 +133,7 @@ class CubeRotateSystem: BaseSystem {
         var transform = rotateEntity.transform
         transform.rotation = rotation
         if let duration = duration {
-            let result = rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: duration, timingFunction: .easeInOut)
+            controll = rotateEntity.move(to: transform, relativeTo: rotateEntity.parent, duration: duration, timingFunction: .easeInOut)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.05) {
                 self.resetPieceRelation()
@@ -146,14 +142,14 @@ class CubeRotateSystem: BaseSystem {
             }
         } else {
             rotateEntity.move(to: transform, relativeTo: rotateEntity.parent)
-            self.resetPieceRelation()
+            resetPieceRelation()
             print("操作\(move)结束")
         }
     }
     
     /// 重置魔方块的父子关系
     private func resetPieceRelation() {
-        scene.performQuery(Self.query).forEach { entity in
+        for entity in scene.performQuery(Self.query) {
             entity.removeFromParent(preservingWorldTransform: true)
             
             scene.findEntity(named: "CubeRoot")?.addChild(entity)
@@ -168,7 +164,6 @@ class CubeRotateSystem: BaseSystem {
             resetPieceRelation()
         }
     }
-    
     
     override func update(context: SceneUpdateContext) {
         // 重放和旋转
@@ -190,13 +185,21 @@ class CubeRotateSystem: BaseSystem {
             return
         }
         
+        
         rotateComponent.isOperating = true
-        cubeRoot.components[CubeRotateComponent.self] = rotateComponent
+        var operators = rotateComponent.operators
+        let nextOp = operators.removeFirst()
+        rotateComponent.operators = operators
         
-        
-        performOpeartor(rotateComponent.operators.removeFirst(), duration: 1, moveEnd: {
+        performOpeartor(nextOp, duration: 0.5, moveEnd: {
+            // 重置 bug
+            guard var rotateComponent = cubeRoot.components[CubeRotateComponent.self] else
+            {
+                return
+            }
             rotateComponent.isOperating = false
             cubeRoot.components[CubeRotateComponent.self] = rotateComponent
         })
+        cubeRoot.components[CubeRotateComponent.self] = rotateComponent
     }
 }
